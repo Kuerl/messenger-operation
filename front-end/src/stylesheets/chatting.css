@@ -1,0 +1,99 @@
+.__chat {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.__chat__groupBar {
+    height: 100vh;
+    background-color: #1F618D;
+    width: 312px;
+}
+
+.__chat__groupBar__content {
+    display: flex;
+    flex-direction: row;
+    width: 312px;
+}
+
+.__chat__groupChannel {
+    width: 240px;
+    background-color: #34495E;
+}
+
+/* .testing {
+    width: 48px;
+    height: 48px;
+    background-color: #1A5276;
+    border-radius: 50%;
+    margin: 12px auto;
+} */
+
+#createGroup {
+    font-size: 45px !important;
+}
+
+#main {
+    padding: 5px;
+    width: 38px !important;
+    height: 38px !important;
+}
+
+/* ~~~~~~ Channel */
+.__channel {
+    height: 100vh;
+}
+
+.__channel__header {
+    height: 48px;
+    -webkit-box-shadow: 0 4px 6px -6px #222;
+    -moz-box-shadow: 0 4px 6px -6px #222;
+    box-shadow: 1px 2px 2px #17202A;
+}
+
+.__chat__msgView {
+    display: flex;
+    flex-direction: row;
+}
+
+.__channel__header button {
+    background-color: unset;
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.__channel__header button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .__channel__header button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -10px;
+    transition: 0.5s;
+  }
+  
+  .__channel__header button:hover span {
+    padding-right: 25px;
+  }
+  
+  .__channel__header button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+
+.__channel__content {
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
