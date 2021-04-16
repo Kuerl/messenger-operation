@@ -1,0 +1,27 @@
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Messages extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
+  };
+  Messages.init({
+    user_id: DataTypes.INTEGER,
+    contact_id: DataTypes.INTEGER,
+    team_id: DataTypes.INTEGER,
+    messages_att: DataTypes.BOOLEAN,
+    message_: DataTypes.STRING
+  }, {
+    sequelize,
+    modelName: 'Messages',
+  });
+  return Messages;
+};
