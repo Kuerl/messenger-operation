@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Khmlxk12",
+    "database": "discordoperationv",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Khmlxk12",
+    "database": "discordoperationv",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "Khmlxk12",
+    "database": "discordoperationv",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
