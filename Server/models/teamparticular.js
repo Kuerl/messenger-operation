@@ -10,15 +10,23 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Channels.belongsTo(models.Accounts, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE'
+      });
+      Channels.belongsTo(models.Teams, {
+        foreignKey: 'team_id',
+        onDelete: 'CASCADE'
+      });
     }
   };
   Teamparticular.init({
-    user_id: DataTypes.INTEGER,
-    team_id: DataTypes.INTEGER
+    // user_id: DataTypes.INTEGER,
+    // team_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Teamparticular',
+    tableName: 'teamparticular'
   });
   return Teamparticular;
 };

@@ -9,12 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Accounts',
+          key: 'id',
+          as: 'user_id',
+        }
       },
       mac_add: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       is_block: {
+        allowNull: false,
         type: Sequelize.BOOLEAN
       },
       createdAt: {

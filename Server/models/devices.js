@@ -10,26 +10,35 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Devices.belongsTo(models.Accounts, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE'
+      });
+      // hasMany - Access
+      Devices.hasMany(models.Access, {
+        foreignKey: 'device_id',
+        as: 'Access'
+      })
     }
   };
   Devices.init({
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
+    // user_id: {
+    //   allowNull: false,
+    //   type: DataTypes.INTEGER
+    // },
     mac_add: {
-      type: DataTypes.STRING,
+      allowNull: true,
       unique: true,
-      allowNull: false
+      type: DataTypes.STRING
     },
     is_block: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      type: DataTypes.BOOLEAN
     }
   }, {
     sequelize,
     modelName: 'Devices',
+    tableName: 'dedvices'
   });
   return Devices;
 };

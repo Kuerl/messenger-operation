@@ -10,12 +10,35 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Teams.belongsTo(models.Accounts, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE'
+      });
+      // hasMany - Teamparticular
+      Teams.hasMany(models.Teamparticular, {
+        foreignKey: 'team_id',
+        as: 'Teamparticular'
+      });
+      // hasMany - Channels
+      Teams.hasMany(models.Channels, {
+        foreignKey: 'team_id',
+        as: 'Channels'
+      });
+      Teams.hasMany(models.Messages, {
+        foreignKey: 'team_id',
+        as: 'Messages'
+      });
     }
   };
   Teams.init({
-    user_id: DataTypes.INTEGER,
-    title: DataTypes.STRING
+    // user_id: {
+    //   allowNull: false,
+    //   type: DataTypes.INTEGER
+    // },
+    title: {
+      allowNull: false,
+      type: DataTypes.STRING
+    }
   }, {
     sequelize,
     modelName: 'Teams',

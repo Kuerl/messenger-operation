@@ -9,12 +9,20 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.INTEGER
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Accounts',
+          key: 'id',
+          as: 'user_id',
+        }
       },
       nickname: {
+        allowNull: true,
         type: Sequelize.STRING
       },
       is_friend: {
+        allowNull: false,
         type: Sequelize.BOOLEAN
       },
       createdAt: {

@@ -10,16 +10,33 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Contacts.belongsTo(models.Accounts, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE'
+      });
+      Contacts.hasMany(models.Messages, {
+        foreignKey: 'contact_id',
+        as: 'Messages'
+      })
     }
   };
   Contacts.init({
-    user_id: DataTypes.INTEGER,
-    nickname: DataTypes.STRING,
-    is_friend: DataTypes.BOOLEAN
+    // user_id: {
+    //   allowNull: false,
+    //   type: DataTypes.INTEGER
+    // },
+    nickname: {
+      allowNull: true,
+      type: DataTypes.STRING
+    },
+    is_friend: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN
+    }
   }, {
     sequelize,
     modelName: 'Contacts',
+    tableName: 'contacts'
   });
   return Contacts;
 };

@@ -10,18 +10,49 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Messages.belongsTo(models.Accounts, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE'
+      });
+      Messages.belongsTo(models.Contacts, {
+        foreignKey: 'contact_id',
+        onDelete: 'CASCADE'
+      });
+      Messages.belongsTo(models.Teams, {
+        foreignKey: 'team_id',
+        onDelete: 'CASCADE'
+      });
+      Messages.belongsTo(models.Attachments, {
+        foreignKey: 'att_id',
+        onDelete: 'CASCADE'
+      });
+      // hasMany - Deletedmessage
+      Messages.hasMany(models.Deletedmessage, {
+        foreignKey: 'msg_id',
+        as: 'Deletedmessage'
+      });
     }
   };
   Messages.init({
-    user_id: DataTypes.INTEGER,
-    contact_id: DataTypes.INTEGER,
-    team_id: DataTypes.INTEGER,
-    messages_att: DataTypes.BOOLEAN,
-    message_: DataTypes.STRING
+    // user_id: DataTypes.INTEGER,
+    // contact_id: DataTypes.INTEGER,
+    // team_id: DataTypes.INTEGER,
+    messages_att: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN
+    },
+    // att_id: {
+    //   allowNull: true,
+    //   type: DataTypes.INTEGER
+    // },
+    message_: {
+      allowNull: false,
+      type: DataTypes.STRING
+    }
   }, {
     sequelize,
     modelName: 'Messages',
+    tableName: 'messages'
   });
   return Messages;
 };

@@ -9,12 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Accounts',
+          key: 'id',
+          as: 'user_id',
+        }
       },
       thumb_url: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       file_url: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       createdAt: {

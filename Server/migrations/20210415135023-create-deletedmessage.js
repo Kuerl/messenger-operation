@@ -9,13 +9,28 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Accounts',
+          key: 'id',
+          as: 'user_id',
+        }
       },
       msg_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Messages',
+          key: 'id',
+          as: 'msg_id',
+        }
       },
       att_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Attachments',
+          key: 'id',
+          as: 'att_id',
+        }
       },
       createdAt: {
         allowNull: false,

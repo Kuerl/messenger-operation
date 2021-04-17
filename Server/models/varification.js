@@ -10,15 +10,26 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Varification.belongsTo(models.Accounts, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE'
+      });
     }
   };
   Varification.init({
-    user_id: DataTypes.INTEGER,
-    vari_code: DataTypes.STRING
+    // user_id: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false
+    // },
+    vari_code: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    }
   }, {
     sequelize,
     modelName: 'Varification',
+    tableName: 'varification'
   });
   return Varification;
 };
