@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE'
       });
       // hasMany - Deletedmessage
-      Messages.hasMany(models.Deletedmessage, {
+      Attachments.hasMany(models.Deletedmessage, {
         foreignKey: 'att_id',
         as: 'Deletedmessage'
       })
@@ -24,11 +24,13 @@ module.exports = (sequelize, DataTypes) => {
   Attachments.init({
     // user_id: DataTypes.INTEGER,
     thumb_url: {
-      tye: DataTypes.STRING,
+      allowNull: false,
+      type: DataTypes.STRING,
       unique: true
     },
     file_url: {
-      tye: DataTypes.STRING,
+      allowNull: false,
+      type: DataTypes.STRING,
       unique: true
     }
   }, {

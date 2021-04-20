@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Channels.belongsTo(models.Accounts, {
+      Teamparticular.belongsTo(models.Accounts, {
         foreignKey: 'user_id',
         onDelete: 'CASCADE'
       });
-      Channels.belongsTo(models.Teams, {
+      Teamparticular.belongsTo(models.Teams, {
         foreignKey: 'team_id',
         onDelete: 'CASCADE'
       });
