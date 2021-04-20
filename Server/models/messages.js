@@ -26,8 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'att_id',
         onDelete: 'CASCADE'
       });
-      // hasMany - Deletedmessage
-      Messages.hasMany(models.Deletedmessage, {
+      // hasOne - Deletedmessage
+      Messages.hasOne(models.Deletedmessage, {
         foreignKey: 'msg_id',
         as: 'Deletedmessage'
       });
