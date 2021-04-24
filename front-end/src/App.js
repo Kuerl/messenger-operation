@@ -9,7 +9,8 @@ function App() {
     <>
       <Switch>
           <Route path="/" component={LoginPage} exact />
-          <Route path="/t" component={Chatting} />
+          <Route path="/c" component={Chatting} />
+    		  <Route path="/cw" component={CallWin} />
       </Switch>
     </>
   );
