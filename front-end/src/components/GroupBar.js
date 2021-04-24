@@ -1,10 +1,12 @@
 import React from 'react';
 import Logo from '../img/favicon.ico';
-import Test from '../img/frame.png'
+import Test from '../img/frame.png';
+
 import '../stylesheets/global.css';
 import '../stylesheets/chatting.css';
 import '../stylesheets/groupBar.css';
 import '../stylesheets/groupContent.css';
+import {Link} from 'react-router-dom';
 import {FaPlus, FaGlobeAsia, FaHashtag, FaVolumeUp, FaRegCalendarCheck} from 'react-icons/fa';
 
 const ChannelContent = () => {
@@ -21,11 +23,13 @@ const ChannelContent = () => {
             </div>
             <div className='__channel__contentView__'>
                 <button><FaVolumeUp /><span>Voice</span></button>
-                <div className='__channel__contentView__status'><div><img src={Test} alt='Kuerl'/></div><span>Kuerl</span></div>
-                <div className='__channel__contentView__status'><div><img src={Test} alt='Kuerl'/></div><span>Username - 1</span></div>
-                <div className='__channel__contentView__status'><div><img src={Test} alt='Kuerl'/></div><span>Username - 2</span></div>
-                <div className='__channel__contentView__status'><div><img src={Test} alt='Kuerl'/></div><span>Username -3</span></div>
-            </div>
+				
+					<div><button type='submit'><Link id='link' to='/cw'><div className='__channel__contentView__member'><img src={Test} alt='Kuerl'/><span>Kuerl</span></div></Link></button></div>
+					<div><button type='submit'><Link id='link' to='/cw'><div className='__channel__contentView__member'><img src={Test} alt='Kuerl'/><span>Username - 1</span></div></Link></button></div>
+					<div><button type='submit'><Link id='link' to='/cw'><div className='__channel__contentView__member'><img src={Test} alt='Kuerl'/><span>Username - 2</span></div></Link></button></div>
+					<div><button type='submit'><Link id='link' to='/cw'><div className='__channel__contentView__member'><img src={Test} alt='Kuerl'/><span>Username - 3</span></div></Link></button></div>
+				
+			</div>
             <div className='__channel__contentView__'>
                 <button className='__channel__contentView__Mark'><FaRegCalendarCheck /><span>Mark</span></button>
                 <div className='__channel__contentView__Mark__content'>
