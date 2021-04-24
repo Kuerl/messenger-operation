@@ -8,79 +8,15 @@ const bodyParser = require('body-parser');                          // get data 
 const app = express();
 app.use(bodyParser.json());
 
-// Register
-app.get('/register',  async (req, res) => {
-    try {
-        res.send('Register Page')
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Server Err: ', err);
-    }
-});
+const Login = require('./services/loginService');
+const Register =  require('./services/registerService');
 
-app.post('/register', body('email').isEmail(), body('password').isLength({ min: 5 }), async (req,res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    const { password, firstname, lastname } = req.body;
-    try {
-        // Check Username
-        let username = await Accounts.findOne({
-            where: {
-                user_name: req.body.user_name.toLowerCase()
-            }
-        });
-            if (username !== null) {
-                res.json("This username is already exist!");
-            }
-        // Check Mail
-        let mail = await Accounts.findOne({
-            where: {
-                email: req.body.email.toLowerCase()
-            }
-        });
-            if (mail !== null) {
-                res.json("This email is already exist!");
-            }
-        // Create Account
-        await Accounts.create({ user_name: req.body.user_name.toLowerCase(), password, email: req.body.email.toLowerCase(), is_active: true, status: "Active", firstname, lastname, block_count: 0, is_block: false });
-        res.json('Your account is already created!');
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Server Error: ', err);
-    }
-});
+Login.Login(app);
+Register.Register(app, body);
 
-// Login
-app.get('/login', async (req, res) => {
-    try {
-        res.send('Login Page')
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Server Err: ', err);
-    }
-})
-
-app.post('/login', async (req, res) => {
-    try {
-        let username = await Accounts.findOne({
-            where: {
-                user_name: req.body.user_name.toLowerCase(),
-                password: req.body.password
-            }
-        });
-            if (username !== null) {
-                res.json("Your was login successfully!");
-            }
-            else {
-                res.json("Your username or password is incorrect!");
-            }
-    } catch (err) {
-        console.log(err);
-        res.status(500).json('Server Error: ', err);
-    }
-})
+// Authen
+    // Session id: uuid
+    // Cookie => Header => JWT Decode => Authentication...
 
 app.listen(({ port: 5000 }), async () => {
     try {
