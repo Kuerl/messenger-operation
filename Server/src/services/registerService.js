@@ -1,4 +1,8 @@
-module.exports.Register = function(server, body) {
+const { validationResult } = require('express-validator');    // register check email and password (client and server must check them both because of secure)
+const Auth = require('../util/auth');
+const { sequelize, Accounts, Varification } = require('../models');
+
+module.exports.Register = function(server, body, session) {
     // Register
     server.get('/register',  async (req, res) => {
         try {
@@ -10,11 +14,14 @@ module.exports.Register = function(server, body) {
     });
 
     server.post('/register', body('email').isEmail(), body('password').isLength({ min: 5 }), async (req,res) => {
+        // Check isValid email, password
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
+        const a = 0 ;
         const { password, firstname, lastname } = req.body;
+        console.log( password, firstname, lastname );
         try {
             // Check Username
             let username = await Accounts.findOne({
@@ -42,4 +49,6 @@ module.exports.Register = function(server, body) {
             res.status(500).json('Server Error: ', err);
         }
     });
+
+    // Auth.Auth(server, session, data);
 }
