@@ -7,11 +7,11 @@ const body = {
 
 const secret = require('../src/config/tokenConf.json');
 const secretSignature = secret.ACCESS_TOKEN_SECRET;
-const tokenLife = secret.REFRESH_TOKEN_LIFE;
+const tokenLife = secret.ACCESS_TOKEN_LIFE;
 
 const main = async () => {
     let token = await generateToken(body, secretSignature, tokenLife);
-    // console.log(token);
+    console.log(token);
 }
 
 main();

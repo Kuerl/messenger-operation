@@ -1,30 +1,19 @@
 const jwt = require('jsonwebtoken');
 
 // Generate JWT
-const generateToken = async (user, secretSignature, tokenLife) => {
+async function generateToken(user, secretSignature, tokenLife) {
     const userData = {
         _id: user._id,
         username: user.user_name,
     }
-    try {
-        jwt.sign(
-            {data: userData},
-            secretSignature,
-            {
-              algorithm: "HS256",
-              expiresIn: tokenLife,
-            },
-            (err, token) => {
-                if(err) {
-                    console.log('Error: ', err);
-                    return err;
-                }
-                console.log('Token: ', token);
-            }
-        );
-    } catch (err) {
-        console.log("Generate Token Fail: ", err);
-    }
+    return jwt.sign(
+        {data: userData},
+        secretSignature,
+        {
+            algorithm: "HS256",
+            expiresIn: tokenLife,
+        }
+    );
 }
 
 // Verify Token

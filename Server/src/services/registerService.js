@@ -1,9 +1,10 @@
 const { validationResult } = require('express-validator');    // register check email and password (client and server must check them both because of secure)
 const Auth = require('../util/auth');
 const { sequelize, Accounts, Varification } = require('../models');
+const { Op } = require("sequelize");
 
 module.exports.Register = function(server, body, session) {
-    // Register
+    // Get Register
     server.get('/register',  async (req, res) => {
         try {
             res.send('Register Page')
@@ -13,40 +14,35 @@ module.exports.Register = function(server, body, session) {
         }
     });
 
+    // Post Register
     server.post('/register', body('email').isEmail(), body('password').isLength({ min: 5 }), async (req,res) => {
-        // Check isValid email, password
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+        // Register: express-validator: Check isValid email, password
+        const validatorErrors = validationResult(req);   // express-validator: Save errors to variable: validatorErrors
+        if (!validatorErrors.isEmpty()) {
+            return res.status(400).json({ validatorErrors: validatorErrors.array() });
         }
-        const a = 0 ;
         const { password, firstname, lastname } = req.body;
         console.log( password, firstname, lastname );
         try {
-            // Check Username
-            let username = await Accounts.findOne({
+            let checkInfo = await Accounts.findAll({
                 where: {
-                    user_name: req.body.user_name.toLowerCase()
+                    [Op.or]: [
+                        {user_name: req.body.user_name.toLowerCase()},
+                        {email: req.body.email.toLowerCase()}
+                    ]
                 }
-            });
-                if (username !== null) {
-                    res.json("This username is already exist!");
-                }
-            // Check Mail
-            let mail = await Accounts.findOne({
-                where: {
-                    email: req.body.email.toLowerCase()
-                }
-            });
-                if (mail !== null) {
-                    res.json("This email is already exist!");
-                }
-            // Create Account
-            await Accounts.create({ user_name: req.body.user_name.toLowerCase(), password, email: req.body.email.toLowerCase(), is_active: true, status: "Active", firstname, lastname, block_count: 0, is_block: false });
-            res.json('Your account is already created!');
+            })
+            if(checkInfo.length !== 0) {
+                res.json("This username or email is already exist!");
+            } else {
+                // Create Account
+                await Accounts.create({ user_name: req.body.user_name.toLowerCase(), password, email: req.body.email.toLowerCase(), is_active: true, status: "Active", firstname, lastname, block_count: 0, is_block: false });
+                res.json('Your account is already created!');
+                // Add direct here!
+            }
         } catch (err) {
             console.log(err);
-            res.status(500).json('Server Error: ', err);
+            res.status(500).json({"Create account errors: ": err});
         }
     });
 
