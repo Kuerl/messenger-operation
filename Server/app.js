@@ -1,65 +1,48 @@
-// Testing Register
-
 const express = require('express');
-const { sequelize, Accounts } = require('./models');
-const { body,validationResult } = require('express-validator');
-// const Accounts = require('./models/accounts.js');
-// const sequelize
-const bodyParser = require('body-parser')
+const session = require('express-session');
+const { sequelize, Accounts } = require('./src/models');
+const { body, validationResult } = require('express-validator');    // register check email and password (client and server must check them both because of secure)
+const bodyParser = require('body-parser');                          // get data form from body req
+var cookieParser = require('cookie-parser');
+var path = require('path');
+
+var jsonParser = bodyParser.json()
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cookieParser());
 
-app.get('/register',  async (req, res) => {
-    try {
-        res.send('Register Page')
-    } catch (err) {
-        console.log(err);
-        res.send(500);
-    }
-});
+app.use(express.static(path.join(__dirname, 'src/public')));
 
-app.post('/register', body('email').isEmail(), body('password').isLength({ min: 5 }), async (req,res) => {
-    // const conf = [{status: "Active", is_active: true, block_count: 0, is_block: false}];
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    const { password, firstname, lastname } = req.body;
-    try {
-        // Check Username
-        let username = await Accounts.findOne({
-            where: {
-                user_name: req.body.user_name.toLowerCase()
-            }
-        });
-            if (username !== null) {
-                res.json("This username is already exist!");
-            }
-        // Check Mail
-        let mail = await Accounts.findOne({
-            where: {
-                email: req.body.email.toLowerCase()
-            }
-        });
-            if (mail !== null) {
-                res.json("This email is already exist!");
-            }
-        // Create Account
-        await Accounts.create({ user_name: req.body.user_name.toLowerCase(), password, email: req.body.email.toLowerCase(), is_active: true, status: "Active", firstname, lastname, block_count: 0, is_block: false });
-        res.json('Your account is already created!');
-    } catch (err) {
-        console.log(err);
-        res.send(500);
-    }
-});
+const Login = require('./src/services/loginService');
+const Register =  require('./src/services/registerService');
 
-app.listen(({ port: 5000 }), async () => {
+Login.Login(app, body, urlencodedParser);
+Register.Register(app, body, session);
+
+// Sesion: Define
+app.use(session({
+    resave: true, 
+    saveUninitialized: true, 
+    secret: 'Secret Token', 
+    cookie: { maxAge: 60000 }
+    })
+);
+
+// Authen
+    // Session id: uuid
+    // Cookie => Header => JWT Decode => Authentication...
+    
+
+// Server: Listen define
+const server = app.listen(5000,  "127.0.0.1", async function () {
+    const host = server.address().address
+    const port = server.address().port
     try {
-        console.log('Server start at: http://localhost:5000');
-        sequelize.authenticate()
         await sequelize.authenticate({alter: true});
             console.log('Connection has been established successfully.');
+        console.log("Server start at: http://%s:%s", host, port)
     }
     catch (err) {
         console.log(err);
