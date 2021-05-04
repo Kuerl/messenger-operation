@@ -1,5 +1,6 @@
 const { generateToken, verifyToken } = require('../util/tokenHandle');
 const tokenConf = require('../config/tokenConf.json');
+var path = require('path');
 
 const { sequelize, Accounts, Varification } = require('../models');
 
@@ -7,11 +8,11 @@ const accessTokenSecret  = tokenConf.ACCESS_TOKEN_SECRET;
 const accessTokenLife = tokenConf.ACCESS_TOKEN_LIFE;
 const refreshTokenLife = tokenConf.REFRESH_TOKEN_LIFE;
 
-const Login = function(server, body, session) {
+const Login = function(server, body, jsonParser) {
     // Get Login
-    server.get('/login', async (req, res) => {
+    server.get('/login', jsonParser, async (req, res) => {
         try {
-            res.send('Login Page')
+            res.sendFile(path.join(__dirname, '../public/login.html'));
         } catch (err) {
             console.log(err);
             res.status(500).json('Server Err: ', err);
@@ -19,9 +20,10 @@ const Login = function(server, body, session) {
     })
 
     // Post Login
-    server.post('/login', async (req, res) => {
+    server.post('/login', jsonParser, async (req, res) => {
         try {
             // Find and check username, password
+            console.log(req.body);
             let username = await Accounts.findOne({
                 where: {
                     user_name: req.body.user_name.toLowerCase(),    // All of username will be convert to Lowercase (at register)
@@ -32,12 +34,12 @@ const Login = function(server, body, session) {
                 if (username !== null) {    // Correct Information
                     try {
                         const accessToken = await generateToken( req.body, accessTokenSecret, accessTokenLife);     // Create Token
-                        res.status(200).json({login: 'success', token: accessToken});   // Response Token
                         // Save JWT to (varification) Database
                         await Varification.create({
                             vari_code: accessToken,
                             user_id: username.id
                         });
+                        res.status(200).json({login: 'success', token: accessToken}).redirect('/');   // Response Token
                     } catch (err) {
                         console.log("Errrrr: ", err);
                         res.status(500).json('Error!');

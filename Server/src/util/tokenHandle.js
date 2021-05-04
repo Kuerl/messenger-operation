@@ -19,9 +19,7 @@ async function generateToken(user, secretSignature, tokenLife) {
 // Verify Token
 const verifyToken = async (token, secretSignature) => {
     try {
-        jwt.verify(token, secretSignature, (decoded) => {
-            return decoded
-        });
+        return jwt.verify(token, secretSignature);
     } catch (err) {
         console.log(err);
     }
