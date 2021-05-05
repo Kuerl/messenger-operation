@@ -1,5 +1,5 @@
 {
-    "ACCESS_TOKEN_SECRET": "discordOperationTokenKuerl",
+    "ACCESS_TOKEN_SECRET": "thisisecretvaluefortokenchecking",
     "ACCESS_TOKEN_LIFE": "1d",
     "REFRESH_TOKEN_LIFE": "1d"
 }

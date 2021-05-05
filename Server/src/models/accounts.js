@@ -63,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Accounts.init({
-    user_name: {
+    username: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false

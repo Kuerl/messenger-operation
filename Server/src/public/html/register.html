@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        #register {
+            height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #register input {
+            margin: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="register">
+        <form method="POST" action='/register'>
+            <h3>REGISTER AN ACCOUNT - DOKBetaV0</h3>
+            <br />
+            Username:
+            <input id="user" placeholder="username" type="text" name="username" for="user_name"/>
+            <br/>
+            Password:
+            <input id="pwd" placeholder="password" type="password" name="password" for="password"/>
+            <br/>
+            Email:
+            <input id="pwd" placeholder="email" type="text" name="email" for="email"/>
+            <br/>
+            First Name:
+            <input id="pwd" placeholder="firstname" type="text" name="firstname" for="firstname"/>
+            <br/>
+            Last Name:
+            <input id="pwd" placeholder="lastname" type="text" name="lastname" for="lastname"/>
+            <br/>
+            <input value="submit" type="submit"/>
+        </form>
+    </div>
+</body>
+</html>
