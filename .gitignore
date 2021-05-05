@@ -23,3 +23,6 @@
 
 # Server
 /Server/node_modules
+
+# Global
+.env
