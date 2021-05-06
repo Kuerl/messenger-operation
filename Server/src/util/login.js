@@ -37,7 +37,8 @@ const login = function(server, bodyParser) {
                             vari_code: accessToken,
                             user_id: username.id
                         });
-                        res.status(200).redirect('/').json({login: 'success', token: accessToken});   // Response Token
+                        res.setHeader('Token', accessToken);
+                        res.status(200).redirect('/');
                     } catch (err) {
                         console.log("Errrrr: ", err);
                         res.status(500).json('Error!');
