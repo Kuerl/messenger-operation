@@ -37,6 +37,7 @@ const login = function(server, bodyParser) {
                             vari_code: accessToken,
                             user_id: username.id
                         });
+                        res.setHeader('loginStatus', 'Success');
                         res.setHeader('Token', accessToken);
                         res.status(200).redirect('/');
                     } catch (err) {
@@ -45,7 +46,8 @@ const login = function(server, bodyParser) {
                     }
                 }
                 else {  // Not correct Information
-                    res.json("Your username or password is incorrect!").redirect('/login');
+                    res.setHeader('loginStatus', 'Fail');
+                    res.redirect('/login');
                 }
         } catch (err) {
             console.log(err);

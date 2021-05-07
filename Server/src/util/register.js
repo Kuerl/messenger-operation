@@ -21,7 +21,8 @@ const register = (server, bodyParser) => {
         console.log(req.body);
         console.log(validatorErrors.array());
         if (!validatorErrors.isEmpty()) {
-            return res.status(400).json({ validatorErrors: validatorErrors.array() });
+            res.setHeader('validatorErrors', validatorErrors.array());
+            res.redirect('/register');
         }
         const { password, firstname, lastname } = req.body;
         console.log( password, firstname, lastname );
@@ -35,11 +36,12 @@ const register = (server, bodyParser) => {
                 }
             })
             if(checkInfo.length !== 0) {
-                res.json("This username or email is already exist!");
+                res.setHeader('registerStatus', 'Exist');
+                res.redirect('/register');
             } else {
                 // Create Account
                 await Accounts.create({ username: req.body.username.toLowerCase(), password, email: req.body.email.toLowerCase(), is_active: true, status: "Active", firstname, lastname, block_count: 0, is_block: false });
-                res.json('Your account is already created!');
+                res.sendFile(path.join(__dirname, '../public/html/registerSuccess.html'));
                 // Add direct here!
             }
         } catch (err) {
