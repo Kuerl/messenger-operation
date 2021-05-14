@@ -21,10 +21,11 @@ const login = function(server, bodyParser) {
     // Post Login
     server.post('/login', bodyParser, async (req, res) => {
         try {
+            console.log(req.body);
             // Check username, password
             let username = await Accounts.findOne({
                 where: {
-                    username: req.body.user_name.toLowerCase(),    // All of username will be convert to Lowercase (at register)
+                    username: req.body.username.toLowerCase(),    // All of username will be convert to Lowercase (at register)
                     password: req.body.password
                 }
             });
@@ -37,17 +38,14 @@ const login = function(server, bodyParser) {
                             vari_code: accessToken,
                             user_id: username.id
                         });
-                        res.setHeader('loginStatus', 'Success');
-                        res.setHeader('Token', accessToken);
-                        res.status(200).redirect('/');
+                        res.json({login: true, token: accessToken});
                     } catch (err) {
                         console.log("Errrrr: ", err);
-                        res.status(500).json('Error!');
+                        res.json({login: false});
                     }
                 }
                 else {  // Not correct Information
-                    res.setHeader('loginStatus', 'Fail');
-                    res.redirect('/login');
+                    res.json({login: false});
                 }
         } catch (err) {
             console.log(err);

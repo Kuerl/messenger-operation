@@ -7,11 +7,14 @@ import login from './util/login';
 import register from './util/register';
 import home from './util/home';
 
+import cors from 'cors';
+
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use(express.static(path.join(__dirname, './public')));
 
