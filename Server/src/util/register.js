@@ -2,6 +2,7 @@ import {body, validationResult} from 'express-validator';    // register check e
 import {Accounts} from '../models';
 import { Op } from "sequelize";
 import path from 'path';
+import {CreateAccount} from '../util/creator';
 
 const register = (server, bodyParser) => {
     // Get Register
@@ -25,7 +26,7 @@ const register = (server, bodyParser) => {
             res.redirect('/register');
         }
         const { password, firstname, lastname } = req.body;
-        console.log( password, firstname, lastname );
+        console.log(req.body);
         try {
             let checkInfo = await Accounts.findAll({
                 where: {
@@ -36,11 +37,12 @@ const register = (server, bodyParser) => {
                 }
             })
             if(checkInfo.length !== 0) {
+                console.log('Check INFOR: ', checkInfo);
                 res.setHeader('registerStatus', 'Exist');
                 res.redirect('/register');
             } else {
                 // Create Account
-                await Accounts.create({ username: req.body.username.toLowerCase(), password, email: req.body.email.toLowerCase(), is_active: true, status: "Active", firstname, lastname, block_count: 0, is_block: false });
+                await CreateAccount(req.body.username, password, req.body.email, firstname, lastname);
                 res.sendFile(path.join(__dirname, '../public/html/registerSuccess.html'));
                 // Add direct here!
             }

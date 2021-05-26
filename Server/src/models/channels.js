@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'team_id',
         onDelete: 'CASCADE'
       });
+      Channels.hasMany(models.Messages, {
+        foreignKey: 'channel_id',
+        as: 'Messages'
+      });
     }
   };
   Channels.init({
@@ -26,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
     type_: {
       allowNull: false,
       type: DataTypes.BOOLEAN
+    },
+    title: {
+      allowNull: false,
+      type: DataTypes.STRING
     }
   }, {
     sequelize,

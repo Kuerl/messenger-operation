@@ -1,0 +1,5 @@
+Create a Team:
+Create Team => TeamP => Create 2 channels (Type 0 and 1) => Add ChannelP
+
+Happen:
+Query PK from title => v4 uuid (Channel title also?)

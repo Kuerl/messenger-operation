@@ -18,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'contact_id',
         onDelete: 'CASCADE'
       });
-      Messages.belongsTo(models.Teams, {
-        foreignKey: 'team_id',
+      Messages.belongsTo(models.Channels, {
+        foreignKey: 'channel_id',
         onDelete: 'CASCADE'
       });
       Messages.belongsTo(models.Attachments, {

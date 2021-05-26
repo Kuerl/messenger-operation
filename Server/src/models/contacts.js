@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Contacts.init({
-    // user_id: {
+    // user_id: {  
     //   allowNull: false,
     //   type: DataTypes.INTEGER
     // },
@@ -29,9 +29,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.STRING
     },
-    is_friend: {
+    friend: {
       allowNull: false,
-      type: DataTypes.BOOLEAN
+      type: DataTypes.INTEGER
     }
   }, {
     sequelize,
