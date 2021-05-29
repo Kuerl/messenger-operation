@@ -10,7 +10,7 @@ import {
     Channels
 } from '../models';
 
-import {QueryTeamUser} from './query';
+import {QueryTeamUser, QueryAccountPK, QueryChannels} from './query';
 
 // Create ACCOUNT
 export async function CreateAccount(username, password, email, firstname, lastname) {
@@ -115,14 +115,14 @@ export async function CreateChannel(type_, user_id, team_id, title) {
     // Create new CHANNEL
 
 // Create MESSAGE
-export async function CreateMessage(message_att, messages, user_id, contact_id, team_id, att_id) {
+export async function CreateMessage(messages_att, message_, user_id, contact_id, att_id, channel_id) {
     await Messages.create({
-        message_att,
-        messages,
+        messages_att,
+        message_,
         user_id,
         contact_id,
-        team_id,
-        att_id
+        att_id,
+        channel_id
     });
 }
 
@@ -132,4 +132,21 @@ export async function CreateMessage(message_att, messages, user_id, contact_id, 
             file_url, user_id, data
         });
     }
+
+// ADD USER TO TEAM/CHANNEL
+export async function CreateNewUser(username, team_id) {
+    // Query user_id:
+    let user_id = await QueryAccountPK(username);
+    // Create Teamparticular
+    await Teamparticular.create({user_id, team_id});
+    // Query channel_id:
+    let channelList = await QueryChannels(team_id);
+    // Create Channelparticular:
+    for (let index = 0; index < channelList.length; index++) {
+        const element = channelList[index].dataValues;
+        await Channelparticular.create({user_id, channel_id: element.id});
+    }
+}
+
+// Create New Channel
 

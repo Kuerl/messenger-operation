@@ -43,7 +43,7 @@ const register = (server, bodyParser) => {
             } else {
                 // Create Account
                 await CreateAccount(req.body.username, password, req.body.email, firstname, lastname);
-                res.sendFile(path.join(__dirname, '../public/html/registerSuccess.html'));
+                res.json('CREATE ACCOUNT SUCCESSFULLY! YOU CAN LOGIN NOW');
                 // Add direct here!
             }
         } catch (err) {

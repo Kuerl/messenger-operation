@@ -1,10 +1,11 @@
 import path from 'path';
 import {Accounts, Teams} from '../models';
-import {CreateTeam, CreateTeamParticular, CreateChannel, CreateChannelParticular, CreateChannelOriginal} from './creator';
+import {CreateTeam, CreateTeamParticular, CreateChannel, CreateChannelParticular, CreateChannelOriginal, CreateMessage, CreateNewUser} from './creator';
 import { v4 as uuidv4 } from 'uuid';
-import {QueryTeams, QueryAccountPK} from './query';
+import {QueryTeams, QueryAccountPK, QueryChannels, QueryMessages} from './query';
+import Transfer from './message'
 
-const home = async (server, bodyParser) => {
+const home = async (server, bodyParser, io) => {
     let USERPARAM = [];
     server.get('/', (req, res) => {
         res.json();
@@ -33,8 +34,6 @@ const home = async (server, bodyParser) => {
 
     // Get Teams list ------------------------------------------------------------
     server.get('/:user/getteam', bodyParser, async (req, res) => {
-        console.log('REQUEST FROM: ', req.params);
-        console.log(req.body);
         let usidFTU = await QueryAccountPK(req.params.user.toLowerCase());
         console.log(usidFTU);
         let getteamResult = await QueryTeams(usidFTU);
@@ -44,8 +43,10 @@ const home = async (server, bodyParser) => {
 
     // Create a new Team ---------------------------------------------------------
     server.post('/:user/createteam', bodyParser, async (req, res) => {
-        console.log('REQ: ', req.body);
         try {
+            if(req.body.member == '' || req.body.member == null || req.body.member == undefined || req.body.title == '' || req.body.title == null || req.body.title == undefined) {
+                return res.json('INVALID');
+            }
             const username = req.params.user.toLowerCase();
             const {title, member} = req.body;
             const UUIDV4 = uuidv4();
@@ -57,7 +58,6 @@ const home = async (server, bodyParser) => {
                 for (let index = 0; index < USERPARAM.length; index++) {
                     const element = USERPARAM[index];
                     if(element.username == username) {
-                        console.log(element.id);
                         userID = element.id;
                     }
                     if (element.username == member) {
@@ -65,7 +65,6 @@ const home = async (server, bodyParser) => {
                     }
                 }
             // TEAMs
-            console.log(Ttitle);
             await CreateTeam(Ttitle, userID);
                 // Get TeamPK => Create TeamParticular
                 let TEAMSWAP = await Teams.findOne({where: {title: Ttitle}})
@@ -77,11 +76,64 @@ const home = async (server, bodyParser) => {
                 await CreateTeamParticular(userID, TeamPK);  
             // CHANNELs
             await CreateChannelOriginal(userID ,TeamPK, UUIDV4);
+            res.json('Create Team Successfully');
         } catch (error) {
             console.log(error);
             res.json(error);
         }
         
+    });
+
+    // Get Channel ---------------------------------------------------------
+    server.get('/:user/:team', bodyParser, async (req, res) => {
+        try {
+            let query = await QueryChannels(req.params.team);
+            res.json({channelList: query});
+        } catch (error) {
+            console.log('GETCHANNELERROR: ', error);
+            res.json({error: error});
+        }
+    });
+
+    // Message Handle -------------------------------------------------------
+    server.post('/:user/:team/:channel', bodyParser, async (req, res) => {
+        console.log(req.body);
+        console.log(req.params.channel);
+        if (req.body.message_ == '' || req.body.message_ == null || req.body.message_ == undefined) {
+            return res.json({error: 'DATABASE IS PROTECTED!'});
+        }
+        try {
+            const {message_att, message_, contact_id, att_id, channel_id} = req.body;
+            await Transfer(io, channel_id, req.body.username, message_);
+            let user_id = await QueryAccountPK(req.params.user.toLowerCase());
+            await CreateMessage(message_att, message_, user_id, contact_id, att_id, channel_id);
+            res.json('SUCCESS');
+        } catch (error) {
+            console.log(error);
+            return res.json({error: error});
+        }
+    });
+
+    // Get Message ----------------------------------------------------------
+    server.get('/:user/:team/:channel', async (req, res) => {
+        try {
+            let msgList = await QueryMessages(req.params.channel);
+            console.log(msgList);
+            res.json(msgList);
+        } catch (error) {
+            res.json(error)
+        }
+    });
+
+    // Add Mem ---------------------------------------------------------------
+    server.post('/:user/:team_id/addMem', async (req, res) => {
+        try {
+            await CreateNewUser(req.params.user, req.params.team_id);
+            res.json("Add new member successfully");
+        } catch (error) {
+            console.log(error);
+            res.json(error)
+        }
     });
 }
 
