@@ -1,0 +1,114 @@
+.msg_View {
+    height: calc(100vh - 150px);
+    background-color: lightcyan;
+}
+
+#username {
+    font-weight: 700;
+}
+
+.home {
+    height: 97vh;
+    width: 97vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-image: url("https://i.pinimg.com/originals/d7/2f/51/d72f51bd646468f4cb3a3275b1b1addf.jpg"); */
+}
+
+#home__welcome {
+    background-color: lightblue;
+    height: 8vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home__ {
+    height: 92vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    /* align-items: center; */
+}
+
+.home__team {
+    background-color: lightgreen;
+    height: 100%;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    padding: 10px;
+}
+
+.home__team button {
+    width: 100%;
+}
+
+.home__channel {
+    background-color: lightpink;
+    height: 100%;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    text-align: center;
+}
+
+.home__create {
+    background-color: lightgoldenrodyellow;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.home__create form {
+    width: 40%;
+}
+
+.home__create button {
+    background-color: black;
+    color: white;
+    font-weight: 700;
+    width: 90%;
+}
+
+.home__channel__ button {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}
+
+.home__msgV {
+    width: calc(100vw - 370px);
+}
+
+.home__msgV input {
+    width: calc(100vw - 500px);
+    padding: 30px;
+}
+
+.home__msgV form {
+    display: flex;
+    flex-direction: row;
+}
+
+.home__msgV form button {
+    width: 70px;
+    background-color: lightcoral;
+    font-weight: 900;
+}
+
+#notBAD {
+    margin: 10px;
+}

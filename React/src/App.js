@@ -1,17 +1,19 @@
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
-import LoginPage from './components/MainPage.js';
-import Chatting from './components/Chatting.js'
-import './stylesheets/global.css';
+import Login from './components/login';
+import Home from './components/home';
+import Register from './components/register';
+import {BrowserRouter as Router, Switch, Route, BrowserRouter} from 'react-router-dom';
 
 function App() {
   return (
     <>
-      <Switch>
-          <Route path="/" component={LoginPage} exact />
-          <Route path="/c" component={Chatting} />
-    		  <Route path="/cw" component={CallWin} />
-      </Switch>
+      <BrowserRouter>
+          <Switch>
+            <Route path='/login' component={Login} />
+            <Route path='/register' component={Register} />
+            <Route path='/' component={Home} />
+          </Switch>
+      </BrowserRouter>
     </>
   );
 }
