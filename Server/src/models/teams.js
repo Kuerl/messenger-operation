@@ -24,10 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'team_id',
         as: 'Channels'
       });
-      Teams.hasMany(models.Messages, {
-        foreignKey: 'team_id',
-        as: 'Messages'
-      });
     }
   };
   Teams.init({
@@ -42,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Teams',
+    tableName: 'teams'
   });
   return Teams;
 };

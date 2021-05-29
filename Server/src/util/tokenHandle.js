@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 // Generate JWT
-async function generateToken(user, secretSignature, tokenLife) {
+export const generateToken = async (user, secretSignature, tokenLife) => {
     const userData = {
         _id: user._id,
         username: user.user_name,
@@ -17,15 +17,10 @@ async function generateToken(user, secretSignature, tokenLife) {
 }
 
 // Verify Token
-const verifyToken = async (token, secretSignature) => {
+export const verifyToken = async (token, secretSignature) => {
     try {
         return jwt.verify(token, secretSignature);
     } catch (err) {
         console.log(err);
     }
-}
-
-module.exports = {
-    generateToken,
-    verifyToken
 }

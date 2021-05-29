@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Attachments.init({
     // user_id: DataTypes.INTEGER,
-    thumb_url: {
+    data: {
       allowNull: false,
       type: DataTypes.STRING,
       unique: true

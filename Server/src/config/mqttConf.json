@@ -1,0 +1,4 @@
+{
+    "BROKER": "broker.mqttdashboard.com:8000",
+    "rootChannel": "DOKBetaV0"
+}
