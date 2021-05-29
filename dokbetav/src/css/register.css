@@ -1,0 +1,37 @@
+.register {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-image: url("https://i.pinimg.com/originals/d7/2f/51/d72f51bd646468f4cb3a3275b1b1addf.jpg");
+}
+
+.register__ {
+    height: 70vh;
+    width: 35vw;
+    background-color: #2F3136;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form input {
+    width: 150%;
+    padding: 10px;
+    margin: 10px 20px;
+}
+
+a {
+    color: white
+}
