@@ -1,9 +1,9 @@
 import path from 'path';
 import {Accounts, Teams} from '../models';
-import {CreateTeam, CreateTeamParticular, CreateChannel, CreateChannelParticular, CreateChannelOriginal, CreateMessage, CreateNewUser} from './creator';
+import {CreateTeam, CreateTeamParticular, CreateChannel, CreateChannelParticular, CreateChannelOriginal, CreateMessage, CreateNewUser} from '../util/creator';
 import { v4 as uuidv4 } from 'uuid';
-import {QueryTeams, QueryAccountPK, QueryChannels, QueryMessages} from './query';
-import Transfer from './message'
+import {QueryTeams, QueryAccountPK, QueryChannels, QueryMessages} from '../util/query';
+import Transfer from '../util/message'
 
 const home = async (server, bodyParser, io) => {
     let USERPARAM = [];

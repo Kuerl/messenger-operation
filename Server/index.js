@@ -4,11 +4,10 @@ import path from 'path';                                        // Path => expre
 import { sequelize } from './models';
 var {Server} = require('socket.io');
 import http from 'http';
-import Transfer from './util/message';
 
-import login from './util/login';
-import register from './util/register';
-import home from './util/home';
+import login from './api/login';
+import register from './api/register';
+import home from './api/home';
 
 import cors from 'cors';
 
