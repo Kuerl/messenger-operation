@@ -1,22 +1,19 @@
-import path from 'path';
-import {Accounts, Teams} from '../models';
+// Import Packages
+
+// Import API
+import teams from './teams';
+import channels from './channels';
+
+// Import Util
+import {Accounts} from '../models';
 import {CreateTeam, CreateTeamParticular, CreateChannel, CreateChannelParticular, CreateChannelOriginal, CreateMessage, CreateNewUser} from '../util/creator';
-import { v4 as uuidv4 } from 'uuid';
 import {QueryTeams, QueryAccountPK, QueryChannels, QueryMessages} from '../util/query';
 import Transfer from '../util/message'
 
 const home = async (server, bodyParser, io) => {
     let USERPARAM = [];
-    server.get('/', (req, res) => {
-        res.json();
-        res.sendFile(path.join(__dirname, '../public/html/home.html'));
-    });
-    // Add authen middleware -----------------------------------------------------
-    server.post('/', async (req, res) => {
-        const {username} = req.body;
-    });
 
-    // Load all user -------------------------------------------------------------
+    // Load all user
     try {
         let all = await Accounts.findAll({
             attributes: ['id','username', 'status']
@@ -31,58 +28,11 @@ const home = async (server, bodyParser, io) => {
     } catch (error) {
         console.log(error);
     }
+    
+    // For Teams API:
+    teams(server, bodyParser, io);
 
-    // Get Teams list ------------------------------------------------------------
-    server.get('/:user/getteam', bodyParser, async (req, res) => {
-        let usidFTU = await QueryAccountPK(req.params.user.toLowerCase());
-        console.log(usidFTU);
-        let getteamResult = await QueryTeams(usidFTU);
-        console.log(getteamResult);
-        res.json({teamList: getteamResult});
-    });
-
-    // Create a new Team ---------------------------------------------------------
-    server.post('/:user/createteam', bodyParser, async (req, res) => {
-        try {
-            if(req.body.member == '' || req.body.member == null || req.body.member == undefined || req.body.title == '' || req.body.title == null || req.body.title == undefined) {
-                return res.json('INVALID');
-            }
-            const username = req.params.user.toLowerCase();
-            const {title, member} = req.body;
-            const UUIDV4 = uuidv4();
-            let userID;
-            let MemPK;
-            let TeamPK;
-            // Create UNIQUE {title}
-            let Ttitle = title+'-*khmluerl*-'+UUIDV4;
-                for (let index = 0; index < USERPARAM.length; index++) {
-                    const element = USERPARAM[index];
-                    if(element.username == username) {
-                        userID = element.id;
-                    }
-                    if (element.username == member) {
-                        MemPK = element.id;
-                    }
-                }
-            // TEAMs
-            await CreateTeam(Ttitle, userID);
-                // Get TeamPK => Create TeamParticular
-                let TEAMSWAP = await Teams.findOne({where: {title: Ttitle}})
-                if (TEAMSWAP == null) {  
-                    return res.json('Fail to create TEAMP');
-                }
-                TeamPK = TEAMSWAP.dataValues.id;
-                await CreateTeamParticular(MemPK ,TeamPK);
-                await CreateTeamParticular(userID, TeamPK);  
-            // CHANNELs
-            await CreateChannelOriginal(userID ,TeamPK, UUIDV4);
-            res.json('Create Team Successfully');
-        } catch (error) {
-            console.log(error);
-            res.json(error);
-        }
-        
-    });
+    // For Channel API:
 
     // Get Channel ---------------------------------------------------------
     server.get('/:user/:team', bodyParser, async (req, res) => {

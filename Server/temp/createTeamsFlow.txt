@@ -1,5 +1,1 @@
-Create a Team:
-Create Team => TeamP => Create 2 channels (Type 0 and 1) => Add ChannelP
-
-Happen:
-Query PK from title => v4 uuid (Channel title also?)
+CORS: : CORS là một cơ chế cho phép nhiều tài nguyên khác nhau (fonts, Javascript, v.v…) của một trang web có thể được truy vấn từ domain khác với domain của trang đó. CORS là viết tắt của từ Cross-origin resource sharing.

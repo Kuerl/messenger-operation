@@ -13,12 +13,19 @@ import {
 
     // Query PK
     export async function QueryAccountPK(username) {
-        let apk = await Accounts.findOne({
-            where: {
-                username
+        try {
+            let AccPK = await Accounts.findOne({
+                where: {
+                    username
+                }
+            });
+            if (AccPK == null) {
+                return -1;
             }
-        });
-        return apk.dataValues.id
+            return AccPK.dataValues.id;
+        } catch (error) {
+            return error;
+        }
     }
     // Query username:
     export async function QueryUsername(id) {
@@ -33,26 +40,48 @@ import {
 
 
 // Query TEAMs
-    export async function QueryTeams(user_id) {
-        let GetTeamID = [];
-        let TeamPQuery = await Teamparticular.findAll({
-            attributes: ['team_id'],
+    // Query All Teams By username: Account PK => Teamparticular (contain this user_id) => Teams
+    export const QueryTeams = async (username) => {
+        let TeamsResult = [];
+        try {
+            let AccPK = await QueryAccountPK(username.toLowerCase());
+            if (AccPK == -1) {
+                return 'No Account Found';
+            }
+            let TeamParticularQuery = await Teamparticular.findAll({
+                attributes: ['user_id', 'team_id'],
+                where: {user_id: AccPK}
+            });
+            for (let i = 0; i < TeamParticularQuery.length; i++) {
+                const element = TeamParticularQuery[i];
+                let TeamQuery = await Teams.findOne({
+                    where: {
+                        id: element.dataValues.team_id
+                    }
+                });
+                TeamsResult.push({
+                    id: TeamQuery.dataValues.id,
+                    title: TeamQuery.dataValues.title,
+                    user_id: TeamQuery.dataValues.user_id
+                });
+            }
+            return TeamsResult;
+        } catch (error) {
+            console.log('QUERY: QueryTeams: ERROR: ', error);
+            return 'error';
+        }
+    }
+
+    // Query team by its title:
+    export const QueryTeambyTitle = async (title) => {
+        let teambyTitle = await Teams.findOne({
             where: {
-                user_id
+                title
             }
         });
-        for (let index = 0; index < TeamPQuery.length; index++) {
-            const element = TeamPQuery[index];
-            let TitleQuery = await Teams.findOne({
-                where: {
-                    id: element.dataValues.team_id
-                }
-            });
-            let TTitle = TitleQuery.dataValues.title;
-            GetTeamID.push({team_id: element.dataValues.team_id, title: TTitle});
-        }
-        return GetTeamID
+        return teambyTitle;
     }
+
     // Query USER's TEAM
     export async function QueryTeamUser(team_id) {
         let tu = [];
@@ -89,6 +118,16 @@ import {
         } catch (error) {
             return error;
         }
+    }
+
+// Query CHANNEL
+    export async function QuerychannelbyTitle(title) {
+        let channelbyTitle = await Channels.findOne({
+            where: {
+                title
+            }
+        });
+        return channelbyTitle.dataValues.id;
     }
 
 // Query Message:

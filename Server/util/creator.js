@@ -1,16 +1,8 @@
-import {
-    Accounts,
-    Varification,
-    Teams,
-    Teamparticular,
-    Channel,
-    Channelparticular,
-    Messages,
-    Attachments,
-    Channels
-} from '../models';
+import { Accounts, Varification, Teams, Teamparticular, Channels, Channelparticular, Messages, Attachments } from '../models';
+import {QueryTeamUser, QueryAccountPK, QueryChannels, QueryTeams, QueryTeambyTitle, QuerychannelbyTitle} from './query';
 
-import {QueryTeamUser, QueryAccountPK, QueryChannels} from './query';
+// Import Util: Transfer
+import { TransferNewCreatedTeam } from './transfer';
 
 // Create ACCOUNT
 export async function CreateAccount(username, password, email, firstname, lastname) {
@@ -23,7 +15,7 @@ export async function CreateAccount(username, password, email, firstname, lastna
         firstname,
         lastname,
         block_count: 0,
-        is_block: false 
+        is_block: false
     });
 }
     // Create VARIFICATION
@@ -35,7 +27,7 @@ export async function CreateAccount(username, password, email, firstname, lastna
     }
 
 // Create TEAM
-export async function CreateTeam(title, user_id) {        // Title must be add an uuid after
+export async function CreateTeam(title, user_id) {
     await Teams.create({
         title,
         user_id
@@ -47,6 +39,43 @@ export async function CreateTeam(title, user_id) {        // Title must be add a
             user_id,
             team_id
         });
+    }
+
+    // Create Original Team:
+    export async function CreateOriginalTeam(title, owner, members, uuid, io) {
+        // This is team list:
+        let userIDList = {members: []};
+        try {
+            let OwnerID = await QueryAccountPK(owner.toLowerCase());
+            userIDList.owner = OwnerID;
+            for (let i = 0; i < members.length; i++) {
+                const element = members[i];
+                let tempID = await QueryAccountPK(element);
+                userIDList.members.push(tempID);
+            }
+
+            await CreateTeam(title, userIDList.owner);  // This is Team creator
+            // Then
+            // Query this team primary key (from userID - ownerID):
+            let createdTeamData = await QueryTeambyTitle(title);
+            userIDList.team_id =  createdTeamData.dataValues.id;
+
+            // Create team particular of all member:
+            await CreateTeamParticular(userIDList.owner, userIDList.team_id);   // Create owner particular
+            for (let i = 0; i < userIDList.members.length; i++) {
+                const element = userIDList.members[i];
+                await CreateTeamParticular(element, userIDList.team_id);
+            }
+
+            // Get uuid
+            await CreateOriginalChannels(userIDList, uuid);
+
+            // Send new created team to members:
+            await TransferNewCreatedTeam(owner, members, title, io);
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 // Create CHANNEL
@@ -65,6 +94,33 @@ export async function CreateChannel(type_, user_id, team_id, title) {
             user_id,
             channel_id
         });
+    }
+
+    // Create Original Channels:
+    export async function CreateOriginalChannels(userIDList, uuid) {
+        try {
+            // General channel: (type: true)
+            await CreateChannel(true, userIDList.owner, userIDList.team_id, 'General'+'-*khmluerl*-'+uuid);
+            // Get channel primary key:
+            let gchannelID = await QuerychannelbyTitle('General'+'-*khmluerl*-'+uuid);
+            await CreateChannelParticular(userIDList.owner, gchannelID);
+            for (let i = 0; i < userIDList.members.length; i++) {
+                const element = userIDList.members[i];
+                await CreateChannelParticular(element, gchannelID);
+            }
+
+        // Voice Channel: (type: false)
+        await CreateChannel(false, userIDList.owner, userIDList.team_id, 'Voice'+'-*khmluerl*-'+uuid);
+            // Get channel primary key:
+            let vchannelID = await QuerychannelbyTitle('Voice'+'-*khmluerl*-'+uuid);
+            await CreateChannelParticular(userIDList.owner, vchannelID);
+            for (let i = 0; i < userIDList.members.length; i++) {
+                const element = userIDList.members[i];
+                await CreateChannelParticular(element, vchannelID);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     // BACSIC CHANNEL:

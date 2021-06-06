@@ -1,49 +1,53 @@
+// Import Packages
 import express from 'express';
-import bodyParser from 'body-parser';                           // Json
-import path from 'path';                                        // Path => express.static
-import { sequelize } from './models';
-var {Server} = require('socket.io');
 import http from 'http';
+import {Server} from 'socket.io';
+import path from 'path';
+import bodyParser from 'body-parser';
+import { sequelize } from './models';
 
+// Import API
 import login from './api/login';
 import register from './api/register';
 import home from './api/home';
 
+// Cors*
 import cors from 'cors';
 
-const jsonParser = bodyParser.json()
+// Define: bodyParser
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
+// Define: Server
 const app = express();
-
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
       origin: '*',
     }
-  });
+});
 
+// Middleware: Body Parser and Cors
 app.use(bodyParser.json());
 app.use(cors());
 
+// Define: static files
 app.use(express.static(path.join(__dirname, './public')));
 
-// App
+// Call App
 login(app, urlencodedParser);
 register(app, urlencodedParser);
 home(app, urlencodedParser, io);
 
-// Socket
+// Socket: Debug
 io.on('connection', (socket) => {
-    console.log('a user connected');
+    console.log('A client connected');
     socket.on('disconnect', () => {
-      console.log('user disconnected');
+      console.log('A client disconnected');
     });
-    socket.on('test', (data) => {console.log('---------------------------------', data)});
 });
 
-// Server: Listen define
-server.listen(5000,  "127.0.0.1", async function () {
+// Server: Listen, Database: Check connect
+server.listen(5000, "127.0.0.1", async function () {
     const host = server.address().address;
     const port = server.address().port;
     try {

@@ -1,0 +1,14 @@
+title + -*khmluerl*- + UUIDV4
+
+get: /:user/getteam => res.json: teams list, first team channels, first team particular
+
+Workflow:
+
+Homepage:
+    getTeam -> teams list, first team channels, first team particular
+
+** :username
+
+
+-- new team creator transfer:
+DOKBetaV0/user

@@ -1,0 +1,1 @@
+export const socketRoot = "DOKBetaV0";
