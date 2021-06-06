@@ -10,6 +10,28 @@ import {
 } from '../models';
 
 // Query ACCOUNTs
+    export async function QueryAccount(username, password) {
+        let account = await Accounts.findOne({
+            where: {
+                username: username.toLowerCase(),    // All of username will be convert to Lowercase (at register)
+                password: password
+            }
+        });
+        if (account != null) {
+            return {data: account, status: true};
+        }
+        account = await Accounts.findOne({
+            where: {
+                username: username.toLowerCase(),    // All of username will be convert to Lowercase (at register)
+            }
+        });
+        if (account != null) {
+            return {data: account, status: false};
+        }
+        else {
+            return {status: null};
+        }
+    }
 
     // Query PK
     export async function QueryAccountPK(username) {

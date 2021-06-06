@@ -96,10 +96,6 @@ module.exports = (sequelize, DataTypes) => {
     block_count: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    is_block: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
     }
   }, {
     sequelize,

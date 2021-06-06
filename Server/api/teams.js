@@ -10,7 +10,7 @@ import { CreateOriginalTeam } from '../util/creator';
 
 const teams = async (server, bodyParser, io) => {
     // Get list of Teams when a user login into the homepage
-    server.get('/:user/getteam', bodyParser, async (req, res) => {
+    server.get('/:user', bodyParser, async (req, res) => {
         const { user } = req.params;
         try {
             let TeamsList = await QueryTeams(user);
@@ -25,7 +25,7 @@ const teams = async (server, bodyParser, io) => {
     });
 
     // Post: Create a Team
-    server.post('/:user/createteam', bodyParser, async (req, res) => {
+    server.post('/:user', bodyParser, async (req, res) => {
         const { user } = req.params;
         const { title, members } = req.body;
         const UUIDV4 = uuidv4();
