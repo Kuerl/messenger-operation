@@ -39,16 +39,16 @@ const register = (server, bodyParser) => {
             if(checkInfo.length !== 0) {
                 console.log('Check INFOR: ', checkInfo);
                 res.setHeader('registerStatus', 'Exist');
-                return res.json({message: 'Account is already exist!'});
+                return res.json({message: 'Account is already exist!', register: false});
             } else {
                 // Create Account
                 await CreateAccount(username, password, email, firstname, lastname);
-                res.json({message: 'Account created successfully!'});
+                res.json({message: 'Account created successfully!', register: true});
                 // Add direct here!
             }
         } catch (err) {
             console.log(err);
-            res.status(500).json({"Create account errors: ": err});
+            res.status(500).json({"Create account errors: ": err, register: false});
         }
     });
 }

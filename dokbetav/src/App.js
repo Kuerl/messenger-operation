@@ -2,18 +2,26 @@ import './App.css';
 import Login from './components/login';
 import Home from './components/home';
 import Register from './components/register';
-import {BrowserRouter as Router, Switch, Route, BrowserRouter} from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 function App() {
+
+  const [authorized, setAuth] = useState(false);
+
+  useEffect(() => {
+    console.log(authorized);
+  });
+
   return (
     <>
-      <BrowserRouter>
+      <Router>
           <Switch>
-            <Route path='/login' component={Login} />
-            <Route path='/register' component={Register} />
-            <Route path='/' component={Home} />
+            <Route exact path='/login' component={Login} />
+            <Route exact path='/register' component={Register} />
+            <Route exact path='/' component={Home} />
           </Switch>
-      </BrowserRouter>
+      </Router>
     </>
   );
 }

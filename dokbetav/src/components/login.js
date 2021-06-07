@@ -1,46 +1,44 @@
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
-import Cookies from 'universal-cookie';
-import axios from "axios";
+import { useCookies } from 'react-cookie';
+
+import {axios} from '../util/axios';
+
 import { onChangeText } from "../util/util";
-import { axiosURL } from "../constants/const";
+
 import '../css/login.css'
 import qrcode from '../img/1622950891.png';
 
 const Login = () => {
-    const cookie = new Cookies();
-    const [state, setState] = useState(
-        {username: '', password: '', login: false, token: ''});
+    const [state, setState] = useState({username: '', password: '', login: false, token: ''});
+    const [redirect, setRedirect] = useState(false);
+    const [cookies, setCookie] = useCookies(['user']);
 
     const handleLogin = async (e) => {
         e.preventDefault();
     
-        await axios({
-            method: 'post',
-            url: axiosURL+'/login',
-            headers: {}, 
-            data: {
+        let response = await axios.post('/login', 
+            {
                 username: state.username,
                 password: state.password
-            }
-        })
-        .then(res=>{
+            })
+            .catch(err => window.alert(err));
+        console.log(response);
+        if (response.data.login === true) {
             setState(prevState => ({
                 ...prevState,
-                login: res.data.login,
-                token: res.data.token
+                login: response.data.login,
+                token: response.data.token
             }));
-            if (state.login) {
-                cookie.set('username', state.username, { path: '/' });
-                cookie.set('token', state.token, { path: '/' });
-                console.log(res.data);
-            }
-            else {
-                console.log(res.data);
-                window.alert(res.data.message);
-            }
-        })
-        .catch(err=>console.log(err));
+            setCookie('username', state.username, {path: '/'});
+            setCookie('Auth', state.token, {path: '/'});
+            setRedirect(true);
+        }
+        window.alert(response.data.message);
+    }
+
+    if (redirect === true || cookies !== null) {
+        return <Redirect to='/' />
     }
     
     return (

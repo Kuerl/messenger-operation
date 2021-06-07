@@ -1,32 +1,46 @@
 import React, { useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { Redirect } from 'react-router-dom';
+
+import { axios } from '../util/axios';
+
 import '../css/register.css';
-import axios from 'axios';
-import { axiosURL } from '../constants/const';
 
 const Register = () => {
     const [register, setRegister] = useState({});
+    const [redirect, setRedirect] = useState(false);
+    const [cookies, setCookie] = useCookies(['user']);
+
     // Create Account:
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         if (register.username == null || register.password == null || register.email == null || register.firstname == null || register.lastname == null) {
             return window.alert('Please fill all of information!');
+        };
+        let response = await axios.post('/register', {
+            username: register.username,
+            email: register.email,
+            password: register.password,
+            firstname: register.firstname,
+            lastname: register.lastname
+        })
+        .catch(err => window.alert(err));
+        if (response.data.register) {
+            setRedirect(true);
         }
-        axios({
-            method: 'post',
-            url: axiosURL+'/register',
-            headers: {},
-            data: {
-                username: register.username,
-                email: register.email,
-                password: register.password,
-                firstname: register.firstname,
-                lastname: register.lastname
-            }
-        })
-        .then(res => {
-            window.alert(res.data.message);
-        })
+        window.alert(response.data.message);
     }
+
+    // Check register cookies:
+    if (cookies !== null) {
+        return <Redirect to='/' />
+    }
+
+    // Redirect
+    if (redirect) {
+        return <Redirect to='/login' />
+    }
+
     return (
         <div className="register">
             <div className="register__form">
