@@ -31,13 +31,13 @@ const Login = () => {
                 token: response.data.token
             }));
             setCookie('username', state.username, {path: '/'});
-            setCookie('Auth', state.token, {path: '/'});
+            setCookie('Auth', response.data.token, {path: '/'});
             setRedirect(true);
         }
         window.alert(response.data.message);
     }
 
-    if (redirect === true || cookies !== null) {
+    if (redirect === true || Object.keys(cookies).length !== 0) {
         return <Redirect to='/' />
     }
     

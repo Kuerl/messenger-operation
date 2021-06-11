@@ -122,7 +122,7 @@ import {
 
 // Query Channels of a Team:
     export async function QueryChannels(team_id) {
-        let c = [];
+        let channels = {text: [], voice: []};
         try {
             let QueryChannel = await Channels.findAll({
                 where: {
@@ -131,14 +131,21 @@ import {
             });
             for (let index = 0; index < QueryChannel.length; index++) {
                 const element = QueryChannel[index];
-                c.push({
-                    id: element.id,
-                    title: element.title
-                });
+                if (element.type_) {
+                    channels.text.push({
+                        id: element.id,
+                        title: element.title
+                    })
+                } else {
+                    channels.voice.push({
+                        id: element.id,
+                        title: element.title
+                    })
+                }
             }
-            return c;
+            return channels;
         } catch (error) {
-            return error;
+            return false
         }
     }
 

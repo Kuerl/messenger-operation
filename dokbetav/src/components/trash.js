@@ -114,7 +114,7 @@ const TeamsList = () => {
         socket.on("DOKBetaV0/"+channel_id+"/client", (data) => {
             console.log(data);
             setMsgList(prevState => (
-                [...prevState, data]
+                [...prevState, data]    
             ));
         });
         getTeams();

@@ -1,0 +1,57 @@
+
+
+.channel {
+    color: #E1ECF3;
+}
+.channel label {
+    font-weight: 700;
+}
+.channel button {
+    background-color: unset;
+
+    border: none;
+
+    padding: 2px;
+
+    display: flex;
+    align-items: flex-end;
+}
+
+.channel label:hover {
+    color: white;
+}
+
+.channel__text {
+    margin: 10px 10px 30px 10px;
+}
+
+.channel__text__title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.channel__text__channel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+    .channel__text__channel__setting {
+        display: flex;
+        flex-direction: row;
+    }
+
+.channel__voice {
+    margin: 10px;
+}
+
+.channel__voice__title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* anti system */ 
+#LOGOK {
+    background-image: url(../img/LOGO.jpg);
+    background-size: 100%;
+}

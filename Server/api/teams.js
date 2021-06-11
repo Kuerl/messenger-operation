@@ -17,10 +17,11 @@ const teams = async (server, bodyParser, io) => {
                 if (TeamsList == 'error') {
                     throw error;
                 }
-            return res.status(205).json({TeamsList: TeamsList});
+            console.log(TeamsList);
+            return res.json({TeamsList: TeamsList});
         } catch (error) {
             console.log('FROM: /:', user,'/getteam: ERROR: ', error);
-            return res.status(400).json('ServerError');
+            return res.json('ServerError');
         }
     });
 
