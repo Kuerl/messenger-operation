@@ -10,6 +10,28 @@ import {
 } from '../models';
 
 // Query ACCOUNTs
+    export async function QueryAccount(username, password) {
+        let account = await Accounts.findOne({
+            where: {
+                username: username.toLowerCase(),    // All of username will be convert to Lowercase (at register)
+                password: password
+            }
+        });
+        if (account != null) {
+            return {data: account, status: true};
+        }
+        account = await Accounts.findOne({
+            where: {
+                username: username.toLowerCase(),    // All of username will be convert to Lowercase (at register)
+            }
+        });
+        if (account != null) {
+            return {data: account, status: false};
+        }
+        else {
+            return {status: null};
+        }
+    }
 
     // Query PK
     export async function QueryAccountPK(username) {
@@ -35,6 +57,25 @@ import {
             }
         });
         return usn.dataValues.username;
+    }
+    // QueryAccounts (Allatt):
+    export async function QueryAccountAllAtt(id) {
+        try {
+            let queryaccounts = await Accounts.findOne({
+                where: {
+                    id
+                }
+            });
+            return {
+                username: queryaccounts.dataValues.username,
+                firstname: queryaccounts.dataValues.firstname,
+                lastname: queryaccounts.dataValues.lastname,
+                email: queryaccounts.dataValues.email,
+                status: queryaccounts.dataValues.status
+            };
+        } catch (error) {
+            return false;
+        }
     }
     // Query VARIFICATIONs
 
@@ -100,7 +141,7 @@ import {
 
 // Query Channels of a Team:
     export async function QueryChannels(team_id) {
-        let c = [];
+        let channels = {text: [], voice: []};
         try {
             let QueryChannel = await Channels.findAll({
                 where: {
@@ -109,14 +150,43 @@ import {
             });
             for (let index = 0; index < QueryChannel.length; index++) {
                 const element = QueryChannel[index];
-                c.push({
-                    id: element.id,
-                    title: element.title
-                });
+                if (element.type_) {
+                    channels.text.push({
+                        id: element.id,
+                        title: element.title
+                    })
+                } else {
+                    channels.voice.push({
+                        id: element.id,
+                        title: element.title
+                    })
+                }
             }
-            return c;
+            return channels;
         } catch (error) {
-            return error;
+            return false
+        }
+    }
+
+    // Query ChannelsParticular by channel_id:
+    export async function QueryChannelparticular(channel_id) {
+        let channelparticular = [];
+        try {
+            let querychannelparticular = await Channelparticular.findAll({
+                where: {
+                   channel_id 
+                }
+            })
+            for (let i = 0; i < querychannelparticular.length; i++) {
+                const element = querychannelparticular[i];
+                // console.log('ELEMENT: ', element);
+                let account = await QueryAccountAllAtt(element.user_id);
+                channelparticular.push(account);
+            }
+            // console.log(channelparticular);
+            return channelparticular;
+        } catch (error) {
+            return false
         }
     }
 
@@ -152,5 +222,6 @@ import {
             return msgList;
         } catch (error) {
             console.log('QMER: ', error);
+            return false;
         }
     }

@@ -10,22 +10,23 @@ import { CreateOriginalTeam } from '../util/creator';
 
 const teams = async (server, bodyParser, io) => {
     // Get list of Teams when a user login into the homepage
-    server.get('/:user/getteam', bodyParser, async (req, res) => {
+    server.get('/:user', bodyParser, async (req, res) => {
         const { user } = req.params;
         try {
             let TeamsList = await QueryTeams(user);
                 if (TeamsList == 'error') {
                     throw error;
                 }
-            return res.status(205).json({TeamsList: TeamsList});
+            console.log(TeamsList);
+            return res.json({TeamsList: TeamsList});
         } catch (error) {
             console.log('FROM: /:', user,'/getteam: ERROR: ', error);
-            return res.status(400).json('ServerError');
+            return res.json('ServerError');
         }
     });
 
     // Post: Create a Team
-    server.post('/:user/createteam', bodyParser, async (req, res) => {
+    server.post('/:user', bodyParser, async (req, res) => {
         const { user } = req.params;
         const { title, members } = req.body;
         const UUIDV4 = uuidv4();

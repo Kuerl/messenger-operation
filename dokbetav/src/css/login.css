@@ -4,66 +4,111 @@ html, body, #root {
 }
 
 .login {
+    background-image: url("../img/background.png");
+
     height: 100%;
     width: 100%;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
     color: white;
-    background-image: url("https://i.pinimg.com/originals/d7/2f/51/d72f51bd646468f4cb3a3275b1b1addf.jpg");
 }
 
-.login form {
-    width: 35vw;
+.login__formview {
+    background-color: #242F3D;
+
+    height: 400px;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+
+    color: white;
+}
+
+.login__formview__content {
+    background-color: #17212B;
+
+    height: 100%;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    margin: 20px 0px;
-}
+    align-items: flex-start;
 
-.login input, button {
-    padding: 10px;
-    width: 20vw;
-    margin: 10px 0px;
-    border-radius: 5px;
-    border: 0px;
-}
-
-.login__ {
-    height: 70vh;
-    background-color: #2F3136;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0px 20px;
-    border-radius: 0px 10px 10px 0px;
-}
-
-.login__quote {
-    background-color: #40444B;
-    width: 30vw;
-    height: 70vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     border-radius: 10px 0px 0px 10px;
+
+    padding: 0px 40px;
 }
 
-.login__quote img {
-    height: 35%;
-    border-radius: 50px;
-}
+    .login__formview__content form {
+        width: 100%;
 
-.login a {
-    color: white;
-}
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+    }
 
-#register {
-    padding: 0px;
-    width: 70px;
-    background-color: unset;
-    color: white;
+    .login__formview__content form label {
+        /* font-size: 10px; */
+        font-weight: 700;
+    }
+
+    .login__formview__content input{
+        background-color: #0E1621;
+
+        width: 450px;
+        height: 25px;
+
+        margin: 2px 0px;
+        padding: 10px;
+
+        color: white;
+
+        border: solid black 1px;
+        border-radius: 5px;
+    }
+
+    .login__formview__content input:focus {
+        border: solid #58C5E5 1px;
+
+        outline: none;
+    }
+
+    .login__formview__content button{
+        background-color: #58C5E5;
+
+        width: 472px;
+
+        margin: 2px 0px;
+        padding: 10px;
+
+        color: white;
+        font-weight: 700;
+
+        border: solid black 1px;
+        border-radius: 5px;
+    }
+
+.login__formview_quote {
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    flex-direction: column;
+
+    margin: 0px 60px;
 }
+    
+    .login__formview_quote img {
+        height: 190px;
+
+        margin-bottom: 15px;
+
+        border-radius: 5px;
+    }

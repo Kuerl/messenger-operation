@@ -1,114 +1,189 @@
-.msg_View {
-    height: calc(100vh - 150px);
-    background-color: lightcyan;
-}
-
-#username {
-    font-weight: 700;
-}
-
 .home {
-    height: 97vh;
-    width: 97vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* background-image: url("https://i.pinimg.com/originals/d7/2f/51/d72f51bd646468f4cb3a3275b1b1addf.jpg"); */
-}
+    background-image: url("../img/background.png");
+    position: relative;
 
-#home__welcome {
-    background-color: lightblue;
-    height: 8vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    height: 100%;
+    width: 100%;
 
-.home__ {
-    height: 92vh;
-    width: 100vw;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    /* align-items: center; */
-}
+    align-items: flex-end;
 
-.home__team {
-    background-color: lightgreen;
-    height: 100%;
-    width: 80px;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: center; */
-    align-items: center;
-    padding: 10px;
-}
-
-.home__team button {
-    width: 100%;
-}
-
-.home__channel {
-    background-color: lightpink;
-    height: 100%;
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px;
-    text-align: center;
-}
-
-.home__create {
-    background-color: lightgoldenrodyellow;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.home__create form {
-    width: 40%;
-}
-
-.home__create button {
-    background-color: black;
     color: white;
-    font-weight: 700;
-    width: 90%;
 }
 
-.home__channel__ button {
+.layer {
+    background: rgba(0, 0, 0, 0.65);
+
+    top: 0;
+    left: 0;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-}
+    height: 100%;
 
-.home__msgV {
-    width: calc(100vw - 370px);
-}
-
-.home__msgV input {
-    width: calc(100vw - 500px);
-    padding: 30px;
-}
-
-.home__msgV form {
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
 }
 
-.home__msgV form button {
-    width: 70px;
-    background-color: lightcoral;
+.LOGO {
+    width: 150px;
+    height: 35px;
+
+    position: fixed;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 1 !important;
+
+    top: 0px;
+    left: -15px;
+    
     font-weight: 900;
 }
 
-#notBAD {
-    margin: 10px;
+.USERNAME {
+    width: 150px;
+    height: 35px;
+
+    position: fixed;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 1 !important;
+
+    top: 0px;
+    left: calc(50% - 75px);
+    
+    font-weight: 900;
 }
+
+.home__teams {
+    height: calc(100% - 35px);
+    width: 80px;
+}
+
+.home__msgarea {
+    background: rgba(87, 150, 238, 0.25);
+
+    height: calc(100% - 35px);
+    width: calc(100% - 80px);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    
+    border-radius: 15px 0px 0px 0px;
+}
+
+    .home__msgarea__channel {
+        background: rgba(87, 150, 238, 0.25);
+
+        height: 100%;
+        width: 230px;
+        
+        border-radius: 15px 0px 0px 0px;
+    }
+
+    .home__msgarea__channel__channelview {
+        height: calc(100% - 70px);
+        width: 210px;
+    }
+
+    .home__msgarea__msg {
+        height: 100%;
+        width: calc(100% - 230px);
+    }
+
+/* home__channel */
+
+.home__msgarea__channel {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+    .home__msgarea__channel__title {
+        height: 50px;
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        /* border-bottom: solid black 3px; */
+        box-shadow: 0 4px 2px -3px;
+    }
+
+    .home__msgarea__channel__channelview {
+        padding: 10px;
+    }
+
+/* home__messages */
+.home__msgarea__msg {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+    .home__msgarea__msg__nav {
+        height: 50px !important;
+        width: 100%;
+
+        display: flex;
+        /* flex-direction: column;
+        justify-content: center;
+        align-items: center; */
+
+        box-shadow: 0 4px 2px -3px;
+    }
+
+    .home__msgarea__msg__msgview {
+        height: calc(100% - 50px);
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-end;
+    }
+
+    .home__msgarea__msg__msgview__ {
+        height: 100%;
+        width: calc(100% - 230px);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+    }
+
+    .home__msgarea__members {
+        height: 100%;
+        width: 230px;
+
+        border-left: solid 1px rgba(255, 255, 255, 0.35);
+    }
+
+    /* IN SIDE */
+    .home__msgarea__channel__title {
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .USNAMELABEL {
+        background: -webkit-linear-gradient(#FF0A89, #ED5B5B);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }

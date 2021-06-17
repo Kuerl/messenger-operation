@@ -14,8 +14,7 @@ export async function CreateAccount(username, password, email, firstname, lastna
         status: "Active",
         firstname,
         lastname,
-        block_count: 0,
-        is_block: false
+        block_count: 0
     });
 }
     // Create VARIFICATION
