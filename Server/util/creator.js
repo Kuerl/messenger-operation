@@ -170,15 +170,18 @@ export async function CreateChannel(type_, user_id, team_id, title) {
     // Create new CHANNEL
 
 // Create MESSAGE
-export async function CreateMessage(messages_att, message_, user_id, contact_id, att_id, channel_id) {
-    await Messages.create({
-        messages_att,
-        message_,
-        user_id,
-        contact_id,
-        att_id,
-        channel_id
-    });
+export async function CreateMessage(messages_att, message_, username, contact_id, att_id, channel_id) {
+    let user_id = await QueryAccountPK(username);
+    if (user_id != -1) {
+        await Messages.create({
+            messages_att,
+            message_,
+            user_id,
+            contact_id,
+            att_id,
+            channel_id
+        });
+    }
 }
 
     // Create ATTACHMENT

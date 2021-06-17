@@ -8,7 +8,7 @@ const Team = ({paginationChannel,navChannel}) => {
     const [cookies, setCookie] = useCookies(['user']);
     const [pagination, setPagination] = useState([]);
 
-    const [button, setButton] = useState(null);
+    const [button, setButton] = useState(-1);
 
     const getTeams = async () => {
         let response = await axios.get('/'+cookies.username).catch(err => console.log(err));

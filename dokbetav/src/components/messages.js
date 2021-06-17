@@ -4,6 +4,7 @@ import {RiSendPlane2Fill} from 'react-icons/ri';
 import { axios } from "../util/axios";
 import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
+import socket from '../util/socket';
 
 const Message = ({ paginationMessage }) => {
     return(
@@ -37,13 +38,37 @@ const Message = ({ paginationMessage }) => {
 const MessageView = ({paginationMessage}) => {
     const [cookies, setCookie] = useCookies(["user"]);
     const [message, setMessage] = useState([{username: '', message: ''}]);
-
-
-    console.log(message);
+    const [sendMsg, setSendMsg] = useState({channel: null, message: null});
 
     const getMessages = async () => {
-        let response = await axios.get('/'+cookies.username+'/'+paginationMessage.team.id+'/'+paginationMessage.channel.id+'/t').catch(error => console.log(error))
+        let response = await axios.get('/'+cookies.username+'/'+paginationMessage.team.id+'/'+paginationMessage.channel.id+'/t').catch(error => console.log(error));
         setMessage(response.data);
+
+        // SOCKET HANDLE
+        console.log('----------------', sendMsg);
+        if (paginationMessage.channel !== null) {
+            console.log('SUB: ', paginationMessage.channel.id);
+            socket.off(sendMsg.channel);
+            socket.on(paginationMessage.channel.id+'', data => {
+                setMessage(prevState => [...prevState, data]);
+            });
+        }
+        setSendMsg(prevState => ({...prevState, channel: paginationMessage.channel.id}))
+    }
+
+    const sendMessage = async (e) => {
+        e.preventDefault();
+        await axios.post(
+            '/'+cookies.username+'/'+paginationMessage.team.id+'/'+paginationMessage.channel.id+'/t',
+            {
+                message_att: false,
+                message: sendMsg.message,
+                contact_id: null,
+                att_id: null
+            }
+        )
+        .catch(error => console.log(error));
+        setSendMsg(prevState => ({...prevState, message: ''}));
     }
 
     useEffect(() => {
@@ -54,7 +79,7 @@ const MessageView = ({paginationMessage}) => {
 
     return (
         <>
-            <div className='msgV__view'>
+            <div className='msgV__view' id='sc4'>
                 {
                     message.map(item => 
                         <div className='msg__view__msg'>
@@ -73,10 +98,14 @@ const MessageView = ({paginationMessage}) => {
                     )
                 }
             </div>
-            <div className='msgV__send'>
-                <input placeholder='Enter your messages'/>
-                <button >
-                </button>
+            <div >
+                <form onSubmit={(e) => sendMessage(e)} className='msgV__send'>
+                    <input value={sendMsg.message} onChange={(e) => {
+                        setSendMsg(prevState => ({...prevState, message: e.target.value}));
+                    }} placeholder='Enter your messages'/>
+                    <button>
+                    </button>
+                </form>
             </div>
         </>
     );
