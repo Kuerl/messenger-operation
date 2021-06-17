@@ -58,6 +58,25 @@ import {
         });
         return usn.dataValues.username;
     }
+    // QueryAccounts (Allatt):
+    export async function QueryAccountAllAtt(id) {
+        try {
+            let queryaccounts = await Accounts.findOne({
+                where: {
+                    id
+                }
+            });
+            return {
+                username: queryaccounts.dataValues.username,
+                firstname: queryaccounts.dataValues.firstname,
+                lastname: queryaccounts.dataValues.lastname,
+                email: queryaccounts.dataValues.email,
+                status: queryaccounts.dataValues.status
+            };
+        } catch (error) {
+            return false;
+        }
+    }
     // Query VARIFICATIONs
 
 
@@ -149,6 +168,28 @@ import {
         }
     }
 
+    // Query ChannelsParticular by channel_id:
+    export async function QueryChannelparticular(channel_id) {
+        let channelparticular = [];
+        try {
+            let querychannelparticular = await Channelparticular.findAll({
+                where: {
+                   channel_id 
+                }
+            })
+            for (let i = 0; i < querychannelparticular.length; i++) {
+                const element = querychannelparticular[i];
+                // console.log('ELEMENT: ', element);
+                let account = await QueryAccountAllAtt(element.user_id);
+                channelparticular.push(account);
+            }
+            // console.log(channelparticular);
+            return channelparticular;
+        } catch (error) {
+            return false
+        }
+    }
+
 // Query CHANNEL
     export async function QuerychannelbyTitle(title) {
         let channelbyTitle = await Channels.findOne({
@@ -181,5 +222,6 @@ import {
             return msgList;
         } catch (error) {
             console.log('QMER: ', error);
+            return false;
         }
     }

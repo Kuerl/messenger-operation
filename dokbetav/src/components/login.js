@@ -7,7 +7,7 @@ import {axios} from '../util/axios';
 import { onChangeText } from "../util/util";
 
 import '../css/login.css'
-import qrcode from '../img/1622950891.png';
+import qrcode from '../img/LOGO.jpg';
 
 const Login = () => {
     const [state, setState] = useState({username: '', password: '', login: false, token: ''});

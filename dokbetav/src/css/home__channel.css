@@ -1,7 +1,7 @@
 
 
 .channel {
-    color: #E1ECF3;
+    color: #83ADC8;
 }
 .channel label {
     font-weight: 700;
@@ -54,4 +54,17 @@
 #LOGOK {
     background-image: url(../img/LOGO.jpg);
     background-size: 100%;
+}
+
+/* ----------------------------------------------- */
+.channel__pos {
+    color: white;
+}
+
+.channel__neg {
+    color: #83ADC8;
+}
+
+.channel__s__neg {
+    display: none;
 }

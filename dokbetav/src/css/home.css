@@ -163,6 +163,10 @@
         height: 100%;
         width: calc(100% - 230px);
 
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
     }
 
     .home__msgarea__members {

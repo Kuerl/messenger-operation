@@ -13,16 +13,17 @@ const Team = ({paginationChannel,navChannel}) => {
     const getTeams = async () => {
         let response = await axios.get('/'+cookies.username).catch(err => console.log(err));
         setPagination(response.data.TeamsList);
-        if (paginationChannel.team.title === '') {
+        if (paginationChannel.team.title === '' && response.data.TeamsList.length !== 0) {
             navChannel(response.data.TeamsList[0])
+        }
+        else {
+            navChannel({title: 'NO TEAM AVAILABE'});
         }
     }
 
-    console.log(paginationChannel);
-
     useEffect(() => {
         getTeams();
-    }, [paginationChannel]);
+    }, []);
 
     return(
         <div className='home__teams__implement'>
