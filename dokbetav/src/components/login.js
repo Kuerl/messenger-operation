@@ -40,7 +40,6 @@ const Login = ({redirect, setRedirect}) => {
     switch (redirect) {
         case 1:
             return <Redirect to='/' />;
-            break;
         case 0:
             break;
         case -1:

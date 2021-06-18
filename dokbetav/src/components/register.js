@@ -38,6 +38,15 @@ const Register = ({redirect, setRedirect}) => {
         return <Redirect to='/login' />
     }
 
+    switch (redirect) {
+        case 1:
+            return <Redirect to='/' />;
+        case 0:
+                return <Redirect to='/login' />;
+        case -1:
+            break;
+    }
+
     return (
         <div className="register">
             <div className="register__form">

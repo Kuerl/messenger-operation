@@ -118,4 +118,6 @@ html, body, #root {
     padding: 0px;
     margin: 0px;
     background-color: unset;
+    border: none;
+    width: 10px;
 }
