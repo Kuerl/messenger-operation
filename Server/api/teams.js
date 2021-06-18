@@ -3,7 +3,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 // Import Util:
-import { QueryTeams } from '../util/query';
+import { QueryTeams, QueryAccountPK } from '../util/query';
 import { CreateOriginalTeam } from '../util/creator';
 
 // Import API:
@@ -30,6 +30,21 @@ const teams = async (server, bodyParser, io) => {
         const { user } = req.params;
         const { title, members } = req.body;
         const UUIDV4 = uuidv4();
+
+        // !MIDDLEWARE
+        for (let i = 0; i < members.length; i++) {
+            const element = members[i];
+            if (element.toLowerCase() == user) {
+                members.shift(element);
+                i--;
+            }
+            let middleware = await QueryAccountPK(element.toLowerCase());
+            console.log('MW: ', middleware, 'WW', members);
+            if (middleware == -1) {
+                return res.json('One/some member(s) that you input is/are not exist!')
+            }
+        }
+
         let teamInformation = {
             title: title+'-*khmluerl*-'+UUIDV4,
             members: members,
