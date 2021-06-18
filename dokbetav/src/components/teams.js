@@ -3,13 +3,16 @@ import { axios } from "../util/axios";
 import { useCookies } from "react-cookie";
 import {FaPlus, FaGlobeAsia} from 'react-icons/fa';
 
+import TeamCreate from './Pop-up/createTeam';
+
 import '../css/home__team.css';
 
 const Team = ({paginationChannel,navChannel}) => {
     const [cookies, setCookie] = useCookies(['user']);
     const [pagination, setPagination] = useState([]);
-
     const [button, setButton] = useState(-1);
+
+    const [popup, setPopup] = useState(false);
 
     const getTeams = async () => {
         let response = await axios.get('/'+cookies.username).catch(err => console.log(err));
@@ -61,11 +64,18 @@ const Team = ({paginationChannel,navChannel}) => {
                     </button>
                 </div>
                 <div className='home__teams__btnarea'>
-                    <button className={button === 2 ? 'button__pos' : 'button__neg'} onClick={() => {setButton(2)}}>
+                    <button className={button === 2 ? 'button__pos' : 'button__neg'} onClick={() => {setButton(2); setPopup(true)}}>
                         <FaPlus />
                     </button>
                 </div>
             </div>
+
+            {/* POPUP AREA */}
+            <div><TeamCreate
+                popup={popup} 
+                setPopup={(e) => setPopup(e)}
+                setButton={e => {setButton(e)}}
+            /></div>
         </div>
     );
 }

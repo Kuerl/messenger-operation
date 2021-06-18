@@ -1,0 +1,77 @@
+.createteam__popup {
+    background-color: rgba(0, 0, 0, 0.7);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.createteam__popup__pin {
+    background-image: linear-gradient(to right, #FF0A89 , #ED5B5B);
+
+    position: relative;
+
+    height: 150px;
+    width: 520px;
+
+    color: white;
+    padding: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+}
+
+.createteam__popup__pin__close {
+    width: 40px;
+
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.createteam__popup__pin__close button {
+    border: none;
+
+    background-color: unset;
+}
+
+.createteam__popup__pin form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.createteam__popup__pin form input {
+    width: 350px;
+
+    padding: 10px;
+
+    outline: none;
+
+    border-radius: 5px;
+    border: none;
+
+    margin-bottom: 10px;
+}
+
+.createteam__popup__pin form button {
+    border: none;
+
+    background-color: unset;
+}
+
+.createteam__popup__neg {
+    display: none;
+}
