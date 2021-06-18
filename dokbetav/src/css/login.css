@@ -112,3 +112,10 @@ html, body, #root {
 
         border-radius: 5px;
     }
+
+    
+#register {
+    padding: 0px;
+    margin: 0px;
+    background-color: unset;
+}

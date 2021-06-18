@@ -6,14 +6,15 @@ import { axios } from '../util/axios';
 
 import '../css/register.css';
 
-const Register = () => {
+const Register = ({redirect, setRedirect}) => {
     const [register, setRegister] = useState({});
-    const [redirect, setRedirect] = useState(false);
+    // const [redirect, setRedirect] = useState(false);
     const [cookies, setCookie] = useCookies(['user']);
 
     // Create Account:
     const handleRegister = async (e) => {
         e.preventDefault();
+        // console.log('REGISTER');
         if (register.username == null || register.password == null || register.email == null || register.firstname == null || register.lastname == null) {
             return window.alert('Please fill all of information!');
         };
@@ -26,18 +27,14 @@ const Register = () => {
         })
         .catch(err => window.alert(err));
         if (response.data.register) {
-            setRedirect(true);
+            setRedirect(0);
         }
         window.alert(response.data.message);
     }
 
-    // Check register cookies:
-    if (cookies !== null) {
-        return <Redirect to='/' />
-    }
-
+    console.log('REGISTER');
     // Redirect
-    if (redirect) {
+    if (redirect === 0) {
         return <Redirect to='/login' />
     }
 
@@ -45,7 +42,7 @@ const Register = () => {
         <div className="register">
             <div className="register__form">
                 <h1>Register an account?</h1>
-                <form onSubmit={handleRegister}>
+                <form onSubmit={(e) => handleRegister(e)}>
                     <label>USERNAME</label>
                     <input value={register.username} onChange={e=>setRegister(prevState => ({...prevState, username: e.target.value}))}/>
                     <label>EMAIL</label>

@@ -9,9 +9,9 @@ import { onChangeText } from "../util/util";
 import '../css/login.css'
 import qrcode from '../img/LOGO.jpg';
 
-const Login = () => {
+const Login = ({redirect, setRedirect}) => {
     const [state, setState] = useState({username: '', password: '', login: false, token: ''});
-    const [redirect, setRedirect] = useState(false);
+    // const [redirect, setRedirect] = useState(false);
     const [cookies, setCookie] = useCookies(['user']);
 
     const handleLogin = async (e) => {
@@ -32,13 +32,19 @@ const Login = () => {
             }));
             setCookie('username', state.username, {path: '/'});
             setCookie('Auth', response.data.token, {path: '/'});
-            setRedirect(true);
+            setRedirect(1);
         }
         window.alert(response.data.message);
     }
 
-    if (redirect === true || Object.keys(cookies).length !== 0) {
-        return <Redirect to='/' />
+    switch (redirect) {
+        case 1:
+            return <Redirect to='/' />;
+            break;
+        case 0:
+            break;
+        case -1:
+            return <Redirect to='/register' />;
     }
     
     return (
@@ -54,7 +60,7 @@ const Login = () => {
                             <input value={state.password} type='password' name='password' onChange={e=>onChangeText(e, setState)} /><br />
                             <button type='submit'>LOGIN</button>
                         </form>
-                        <div><span>Need an account? </span><a href="/register" id='register'>Register</a></div>
+                        <div><span>Need an account? </span><button className='turnregister' onClick={() => {setRedirect(-1);}} id='register'>Register</button></div>
                 </div>
                 <div className="login__formview_quote">
                         <img src={qrcode}/>
