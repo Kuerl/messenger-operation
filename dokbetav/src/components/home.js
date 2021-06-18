@@ -12,21 +12,26 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Redirect } from 'react-router';
 
-const Home = ({redirect}) => {
+const Home = ({redirect, setRedirect}) => {
     const [cookies, setCookie] = useCookies(['user']);
     const [paginationChannel, setPaginationChannel] = useState({team: {title: ''}, channel: null, members: []});
     const [members, setMembers] = useState([{username: 'ABC'}, {username: 'XYZ'}]);
 
-    if (Object.keys(cookies).length === 0) {
-        console.log('-----------------------------------');
-        return <Redirect to='/login' />;
-    }
+    // if (Object.keys(cookies).length === 0) {
+    //     console.log('-----------------------------------');
+    //     return <Redirect to='/login' />;
+    // }
 
     switch (redirect) {
         case 1:
             break;
         case 0:
-            return <Redirect to='/login' />;
+            console.log(Object.keys(cookies).length !== 0);
+            if (Object.keys(cookies).length !== 0) {
+                setRedirect(1);
+            } else {
+                return <Redirect to='/login' />;
+            }
         case -1:
             return <Redirect to='/register' />;
     }

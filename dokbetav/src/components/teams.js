@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { axios } from "../util/axios";
 import { useCookies } from "react-cookie";
+import {FaPlus, FaGlobeAsia} from 'react-icons/fa';
 
 import '../css/home__team.css';
 
@@ -56,12 +57,12 @@ const Team = ({paginationChannel,navChannel}) => {
                 <hr />
                 <div  className='home__teams__btnarea'>
                     <button className={button === 1 ? 'button__pos' : 'button__neg'} onClick={() => setButton(1)}>
-                        Public
+                        <FaGlobeAsia />
                     </button>
                 </div>
                 <div className='home__teams__btnarea'>
                     <button className={button === 2 ? 'button__pos' : 'button__neg'} onClick={() => {setButton(2)}}>
-                        Create
+                        <FaPlus />
                     </button>
                 </div>
             </div>
