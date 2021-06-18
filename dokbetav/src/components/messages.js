@@ -87,7 +87,7 @@ const MessageView = ({paginationMessage}) => {
                                 <FaHashtag size='1.6em' color={item.username === cookies.username ? '#68ED9E' :'white'}/>
                             </div>
                             <div className='msg__view__msg__'>
-                                <div>
+                                <div className='msg__view__msg__usname'>
                                     {item.username}
                                 </div>
                                 <div>

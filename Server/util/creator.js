@@ -41,7 +41,7 @@ export async function CreateTeam(title, user_id) {
     }
 
     // Create Original Team:
-    export async function CreateOriginalTeam(title, owner, members, uuid, io) {
+    export async function CreateOriginalTeam(title, owner, members, uuid) {
         // This is team list:
         let userIDList = {members: []};
         try {
@@ -50,6 +50,9 @@ export async function CreateTeam(title, user_id) {
             for (let i = 0; i < members.length; i++) {
                 const element = members[i];
                 let tempID = await QueryAccountPK(element);
+                if (tempID === -1) {
+                    return false;
+                }
                 userIDList.members.push(tempID);
             }
 
@@ -63,14 +66,12 @@ export async function CreateTeam(title, user_id) {
             await CreateTeamParticular(userIDList.owner, userIDList.team_id);   // Create owner particular
             for (let i = 0; i < userIDList.members.length; i++) {
                 const element = userIDList.members[i];
+                // console.log('TEAMP MEMBERS: ', userIDList);
                 await CreateTeamParticular(element, userIDList.team_id);
             }
 
             // Get uuid
             await CreateOriginalChannels(userIDList, uuid);
-
-            // Send new created team to members:
-            await TransferNewCreatedTeam(owner, members, title, io);
 
         } catch (error) {
             console.log(error);

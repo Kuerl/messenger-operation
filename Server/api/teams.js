@@ -36,7 +36,7 @@ const teams = async (server, bodyParser, io) => {
             owner: user
         };
         try {
-            await CreateOriginalTeam(teamInformation.title, user, teamInformation.members, UUIDV4, io);
+            await CreateOriginalTeam(teamInformation.title, user, teamInformation.members, UUIDV4);
             return res.json('Create Team Successfully!');
         } catch (error) {
             console.log(error);
