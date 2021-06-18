@@ -12,6 +12,8 @@ const Team = ({paginationChannel,navChannel}) => {
     const [pagination, setPagination] = useState([]);
     const [button, setButton] = useState(-1);
 
+    console.log(pagination);
+
     const [popup, setPopup] = useState(false);
 
     const getTeams = async () => {
