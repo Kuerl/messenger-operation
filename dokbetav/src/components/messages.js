@@ -1,10 +1,12 @@
-import '../css/home__message.css';
-import {FaHashtag} from 'react-icons/fa';
-import {RiSendPlane2Fill} from 'react-icons/ri';
-import { axios } from "../util/axios";
-import { useCookies } from 'react-cookie';
 import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+
+import { axios } from "../util/axios";
 import socket from '../util/socket';
+
+import '../css/home__message.css';
+
+import {FaHashtag} from 'react-icons/fa';
 
 const Message = ({ paginationMessage }) => {
     return(
