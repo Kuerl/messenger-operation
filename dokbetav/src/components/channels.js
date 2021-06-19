@@ -15,7 +15,7 @@ import '../css/home__channel.css';
 const Channel = ({ Team, navMessage }) => {
     const [cookies, setCookie] = useCookies(['user']);
     const [pagination, setPagination] = useState({text: [], voice: [], active: null, active_type: true});
-
+    let active_type = true;
     const [popup, setPopup] = useState(false);
 
     const getChannels = async () => {
@@ -42,7 +42,7 @@ const Channel = ({ Team, navMessage }) => {
 
     const NavToMsg = async (e) => {
         let members = await getChannelParticular(e.id);
-        let data = {channel: e, members: members}
+        let data = {channel: e, channel_type: active_type, members: members}
         navMessage(data);
     }
 
@@ -82,6 +82,7 @@ const Channel = ({ Team, navMessage }) => {
                                             active_type: true,
                                         }));
                                         getChannelParticular(item.id);
+                                        active_type = true;
                                         NavToMsg(item);
                                     }}
                                 >
@@ -126,6 +127,7 @@ const Channel = ({ Team, navMessage }) => {
                                             active_type: false
                                         }));
                                         getChannelParticular(item.id);
+                                        active_type = false;
                                         NavToMsg(item);
                                     }}
                                 >
@@ -155,5 +157,5 @@ const Channel = ({ Team, navMessage }) => {
         </div>
     );
 }
-
+ 
 export default Channel;

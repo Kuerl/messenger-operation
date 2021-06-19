@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 
 import Team from './teams';
 import Channel from './channels';
+import { getChannelPagination } from './channels';
 import Message from './messages';
 import JitsiComponent from './call';
 
@@ -15,7 +16,11 @@ import { Redirect } from 'react-router';
 
 const Home = ({redirect, setRedirect}) => {
     const [cookies, setCookie] = useCookies(['user']);
-    const [paginationChannel, setPaginationChannel] = useState({team: {title: ''}, channel: null, members: []});
+    const [paginationChannel, setPaginationChannel] = useState(
+                                    {team: {title: ''},
+                                    channel: null,
+                                    channel_type: true,
+                                    members: []});
     const [members, setMembers] = useState([{username: 'ABC'}, {username: 'XYZ'}]);
 
     // if (Object.keys(cookies).length === 0) {
@@ -44,7 +49,8 @@ const Home = ({redirect, setRedirect}) => {
     console.log(paginationChannel);
 
     const navMessage = (e) => {
-            setPaginationChannel(prevState => ({...prevState, channel: e.channel, members: e.members})) // At click
+            setPaginationChannel(prevState => ({...prevState, channel: e.channel,
+                                                 channel_type: e.channel_type, members: e.members})) // At click
     }
 
 
@@ -73,7 +79,7 @@ const Home = ({redirect, setRedirect}) => {
                     </div>
                     <div className='home__msgarea__msg'>
                         {
-                        (paginationChannel.channel === null ) ?
+                        (paginationChannel.channel_type == null || paginationChannel.channel_type) ?
                         <Message paginationMessage={paginationChannel}/> 
                         :
                         <JitsiComponent roomID={paginationChannel.channel.title} userName={cookies.username}/>
