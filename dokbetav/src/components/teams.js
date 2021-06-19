@@ -6,9 +6,10 @@ import {FaPlus, FaGlobeAsia} from 'react-icons/fa';
 import TeamCreate from './Pop-up/createTeam';
 
 import '../css/home__team.css';
+import socket from '../util/socket';
 
 const Team = ({paginationChannel,navChannel}) => {
-    const [cookies, setCookie] = useCookies(['user']);
+    const [cookies] = useCookies(['user']);
     const [pagination, setPagination] = useState([]);
     const [button, setButton] = useState(-1);
 
@@ -29,6 +30,11 @@ const Team = ({paginationChannel,navChannel}) => {
 
     useEffect(() => {
         getTeams();
+        socket.on(cookies.username, data => {
+            if (data) {
+                getTeams();
+            }
+        });
     }, []);
 
     return(

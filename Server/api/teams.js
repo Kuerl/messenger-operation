@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 // Import Util:
 import { QueryTeams, QueryAccountPK } from '../util/query';
 import { CreateOriginalTeam } from '../util/creator';
+import { Transfer } from '../util/transfer';
 
 // Import API:
 
@@ -52,9 +53,11 @@ const teams = async (server, bodyParser, io) => {
         };
         try {
             await CreateOriginalTeam(teamInformation.title, user, teamInformation.members, UUIDV4);
+            Transfer(user+'', true);
             return res.json('Create Team Successfully!');
         } catch (error) {
             console.log(error);
+            Transfer(user+'', false);
             return res.status(404).json('Cannot create a new team');
         }
     });

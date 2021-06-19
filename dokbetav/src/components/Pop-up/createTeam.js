@@ -3,25 +3,29 @@ import '../../css/Pop-up/createteam.css';
 import { useCookies } from "react-cookie";
 
 import { axios } from '../../util/axios';
+import socket from '../../util/socket';
 
 import { GiCrossedBones } from "react-icons/gi";
 import {HiArrowCircleRight} from 'react-icons/hi';
 
 const TeamCreate = ({popup, setPopup, setButton}) => {
     const [cookies, setCookie] = useCookies(['user']);
-    const [state, setState] = useState({title: null, members: []});
+    const [state, setState] = useState({title: '', members: ['']});
 
     const handleCreate = async (e) => {
         e.preventDefault();
-        console.log(state.members.split(';'));
-        try {
-            let response = await axios.post('/'+cookies.username, {title: state.title, members: state.members.split(';')})
-                                    .catch(err => console.log(err));
-            window.alert(response.data);
-            console.log(response);
-            setButton(false);
-        } catch (error) {
-            window.alert(error);
+        if (state.title === '' || state.members[0] === '') {
+            window.alert('Please fill all of information');
+        }
+        else {
+            try {
+                let response = await axios.post('/'+cookies.username, {title: state.title, members: state.members.split(';')})
+                                        .catch(err => console.log(err));
+                window.alert(response.data);
+                setPopup(false);
+            } catch (error) {
+                window.alert(error);
+            }
         }
     }
 
