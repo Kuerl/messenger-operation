@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  postgresql:
+    build:
+      context: ./Server
+      dockerfile: db.Dockerfile
+    restart: always
+    ports:
+      - "5432:5432"
+    
+
+  server:
+    build:
+      context: ./Server
+      dockerfile: Dockerfile
+    command: yarn start
+    ports:
+        - "5000:5000"
+    links:
+      - postgresql
+    environment:
+      DB_SCHEMA: postgres
+      DB_USER: postgres
+      DB_PASSWORD: Khmlxk12
+      DB_HOST: postgresql
+    
+
+  react:
+    build:
+      context: ./dokbetav
+      dockerfile: Dockerfile
+    command: yarn start
+    ports:
+        - "3000:3000"
+    links: 
+        - server
+    environment: 
+      SERVER: server
+
