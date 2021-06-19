@@ -123,20 +123,20 @@ import {
         return teambyTitle;
     }
 
-    // Query USER's TEAM
+    // Query USER of TEAM
     export async function QueryTeamUser(team_id) {
-        let tu = [];
-        let tp = await Teamparticular.findAll({
+        let userteam = [];
+        let teamparticular = await Teamparticular.findAll({
             attributes: ['user_id'],
             where: {
                 team_id,
             }
         });
-        for (let index = 0; index < tp.length; index++) {
-            const element = tp[index];
-            tu.push({user_id: element.dataValues.user_id});
+        for (let index = 0; index < teamparticular.length; index++) {
+            const element = teamparticular[index];
+            userteam.push({user_id: element.dataValues.user_id});
         }
-        return tu;
+        return userteam;
     }
 
 // Query Channels of a Team:

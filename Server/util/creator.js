@@ -80,12 +80,28 @@ export async function CreateTeam(title, user_id) {
 
 // Create CHANNEL
 export async function CreateChannel(type_, user_id, team_id, title) {
-    await Channels.create({
-        type_,
-        user_id,
-        team_id,
-        title
-    });
+    try {
+        await Channels.create({
+            type_,
+            user_id,        // Creater
+            team_id,
+            title
+        });
+        // Get its id:
+        let channel_id = await QuerychannelbyTitle(title);
+        console.log('CHANNELID:', channel_id);
+        
+        // Get member of this team:
+        let membersList = await QueryTeamUser(team_id);
+        console.log('MembersList: ', membersList);
+        for (let i = 0; i < membersList.length; i++) {
+            const element = membersList[i];
+            await CreateChannelParticular(element.user_id, channel_id);
+        }
+        return true;
+    } catch (error) {
+        return false;
+    }
 }
 
     // Create ChannelParticular
