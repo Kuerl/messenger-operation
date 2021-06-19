@@ -9,11 +9,37 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+try {
+  sequelize = new Sequelize(
+    process.env.DB_SCHEMA || 'dokbetav0',
+    process.env.DB_USER || 'postgres',
+    process.env.DB_PASSWORD || 'Khmlxk12',
+    {
+        host: process.env.DB_HOST,
+        dialect: 'postgres'
+    });
+} catch (e) {
+  try {sequelize = new Sequelize(config.database, config.username, config.password, config); 
+  } 
+  finally {
+    console.log(e);
 }
+}
+/* if (config.use_env_variable) {
+  try {
+    sequelize = new Sequelize(process.env[config.use_env_variable], config);
+  } catch (error) {
+    console.log(error);
+  }
+  
+} else {
+  try {
+    sequelize = new Sequelize(config.database, config.username, config.password, config);
+  } catch (error) {
+    console.log(error);
+  }
+ 
+} */
 
 fs
   .readdirSync(__dirname)

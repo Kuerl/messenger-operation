@@ -46,13 +46,24 @@ io.on('connection', (socket) => {
     });
 });
 
+(async () => {
+    try {
+      await sequelize.sync(
+        {alter: true},
+        { force: false} //Reset db every time
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  })();
+
 // Server: Listen, Database: Check connect
 server.listen(5000, "127.0.0.1", async function () {
     const host = server.address().address;
     const port = server.address().port;
     try {
         await sequelize.authenticate({alter: true});
-            console.log('Connection has been established successfully.');
+        console.log('Connection has been established successfully.');
         console.log("Server start at: http://%s:%s", host, port)
     }
     catch (err) {

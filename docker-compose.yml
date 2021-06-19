@@ -1,39 +1,38 @@
 version: "3.9"
 services:
-  postgresql:
-    build:
-      context: ./Server
-      dockerfile: db.Dockerfile
-    restart: always
+  postgres:
+    image: "postgres:12"
     ports:
       - "5432:5432"
-    
-
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Khmlxk12
+      - POSTGRES_DB=dokbetav0
+  
   server:
+    depends_on: 
+      - postgres
     build:
       context: ./Server
       dockerfile: Dockerfile
-    command: yarn start
-    ports:
-        - "5000:5000"
-    links:
-      - postgresql
     environment:
-      DB_SCHEMA: postgres
-      DB_USER: postgres
-      DB_PASSWORD: Khmlxk12
-      DB_HOST: postgresql
+     - DB_SCHEMA=dokbetav0
+     - DB_USER=postgres
+     - DB_PASSWORD=Khmlxk12
+     - DB_HOST=postgres
+    ports:
+      - "5000:5000"
+      
     
 
   react:
     build:
       context: ./dokbetav
       dockerfile: Dockerfile
-    command: yarn start
     ports:
         - "3000:3000"
-    links: 
+    depends_on: 
         - server
     environment: 
-      SERVER: server
+      - SERVER=server
 
