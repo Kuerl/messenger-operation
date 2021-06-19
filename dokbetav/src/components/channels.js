@@ -8,6 +8,7 @@ import {FaPlus} from 'react-icons/fa';
 import {IoIosPersonAdd, IoIosSettings} from 'react-icons/io';
 
 import ChannelCreate from "./Pop-up/createChannels";
+import addMembers from "./Pop-up/addMembers";
 
 import '../css/home__channel.css';
 
@@ -15,8 +16,8 @@ import '../css/home__channel.css';
 const Channel = ({ Team, navMessage }) => {
     const [cookies, setCookie] = useCookies(['user']);
     const [pagination, setPagination] = useState({text: [], voice: [], active: null, active_type: true});
-
     const [popup, setPopup] = useState(false);
+    const [newMember, setnewMember] = useState();
 
     const getChannels = async () => {
         let response = await axios.get('/'+cookies.username+'/'+Team.team.id);
@@ -27,9 +28,13 @@ const Channel = ({ Team, navMessage }) => {
             active: response.data.text[0]
         }));
         // First Look:
-        console.log(response.data.text[0].id);
         let members = await getChannelParticular(response.data.text[0].id);
         let data = {channel: response.data.text[0], members: members}
+        socket.on(Team.team.id, data => {
+            if (data.channel === true) {
+                getChannels();
+            }
+        });
         navMessage(data);
     }
 
@@ -49,11 +54,8 @@ const Channel = ({ Team, navMessage }) => {
     useEffect(() => {
         if (Team.team.id !== undefined) {
             getChannels();
-            socket.on();
         }
     }, [Team.team.id]);
-
-    console.log(pagination);
 
     return (
         <div className='channel'>
@@ -150,6 +152,9 @@ const Channel = ({ Team, navMessage }) => {
             {/* Create Channel! */}
             <div>
                 <ChannelCreate popup={popup} setPopup={e => setPopup(e)} team_id={Team.team.id}/>
+            </div>
+            <div>
+                <addMembers />
             </div>
 
         </div>

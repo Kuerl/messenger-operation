@@ -8,7 +8,7 @@ import { axios } from '../../util/axios';
 import { GiCrossedBones } from "react-icons/gi";
 import { async } from 'regenerator-runtime';
 
-const ChannelCreate = ({ popup, setPopup, team_id }) => {
+const ChannelCreate = ({ popup, setPopup, team_id, setPagination }) => {
     const [state, setState] = useState({type_: true, title: ''});
     const [cookies, setCookie] = useCookies(['user']);
     // console.log(state);
@@ -25,6 +25,7 @@ const ChannelCreate = ({ popup, setPopup, team_id }) => {
             ).catch(err => console.log(err));
         window.alert(response.data);
         setPopup(false);
+        
     }
     return (
         <div className={popup? 'popup__channel' : 'popup__channel__neg'}>

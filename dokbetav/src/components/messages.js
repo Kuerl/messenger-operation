@@ -47,9 +47,7 @@ const MessageView = ({paginationMessage}) => {
         setMessage(response.data);
 
         // SOCKET HANDLE
-        console.log('----------------', sendMsg);
         if (paginationMessage.channel !== null) {
-            console.log('SUB: ', paginationMessage.channel.id);
             socket.off(sendMsg.channel);
             socket.on(paginationMessage.channel.id+'', data => {
                 setMessage(prevState => [...prevState, data]);

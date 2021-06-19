@@ -29,9 +29,11 @@ const channels = async (server, bodyParser, io) => {
         try {
             let user_id = await QueryAccountPK(user);
             let create_channel = await CreateChannel(type_, user_id, team, title_);
-            if (create_channel) {
+            if (create_channel) {  
+                await Transfer(team, {channel: true});
                 return res.json('Create channel successully!');
             } else {
+                await Transfer(team, {channel: false});
                 return res.json('Cannot create channel?');
             }
         } catch (error) {
