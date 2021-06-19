@@ -40,7 +40,7 @@ const Message = ({ paginationMessage }) => {
 const MessageView = ({paginationMessage}) => {
     const [cookies, setCookie] = useCookies(["user"]);
     const [message, setMessage] = useState([{username: '', message: ''}]);
-    const [sendMsg, setSendMsg] = useState({channel: null, message: null});
+    const [sendMsg, setSendMsg] = useState({channel: null, message: ''});
 
     const getMessages = async () => {
         let response = await axios.get('/'+cookies.username+'/'+paginationMessage.team.id+'/'+paginationMessage.channel.id+'/t').catch(error => console.log(error));
@@ -84,7 +84,7 @@ const MessageView = ({paginationMessage}) => {
             <div className='msgV__view' id='sc4'>
                 {
                     message.map(item => 
-                        <div className='msg__view__msg'>
+                        <div className='msg__view__msg' key={item}>
                             <div className='msg__view__msg__logo'>
                                 <FaHashtag size='1.6em' color={item.username === cookies.username ? '#68ED9E' :'white'}/>
                             </div>

@@ -1,11 +1,12 @@
 // This API handle Query channel, messages handle (socket,...) 
 // Import Packages
+import { v4 as uuidv4 } from 'uuid';
 
 // Import API
 
 // Import Util
-import{CreateMessage} from '../util/creator';
-import {QueryChannels, QueryChannelparticular, QueryMessages} from '../util/query';
+import{CreateChannel, CreateMessage} from '../util/creator';
+import {QueryChannels, QueryChannelparticular, QueryMessages, QueryAccountPK} from '../util/query';
 import { Transfer } from '../util/transfer';
 
 const channels = async (server, bodyParser, io) => {
@@ -17,6 +18,24 @@ const channels = async (server, bodyParser, io) => {
             return res.json(channels);
         } else {
             return res.json('SERVER ERROR: Channels?');
+        }
+    });
+
+    server.post('/:user/:team', async (req, res) => {
+        const {user, team} = req.params;
+        const {type_, title} = req.body;
+        const UUIDV4 = uuidv4();
+        let title_ = title+'-*khmluerl*-'+UUIDV4;
+        try {
+            let user_id = await QueryAccountPK(user);
+            let create_channel = await CreateChannel(type_, user_id, team, title_);
+            if (create_channel) {
+                return res.json('Create channel successully!');
+            } else {
+                return res.json('Cannot create channel?');
+            }
+        } catch (error) {
+            return res.json('Server error');
         }
     });
 

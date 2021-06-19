@@ -48,7 +48,7 @@ const Team = ({paginationChannel,navChannel}) => {
                 </div>
                 <hr />
                     {pagination.map((item) => 
-                        <div title={item.id} className='home__teams__btnarea' key={item.title}>
+                        <div title={item.title} className='home__teams__btnarea' key={item.title}>
                             <button
                                 className={(paginationChannel.team.id === item.id && button=== -1) ? "button__pos" : "button__neg"}
                                 value={item} onClick={() => {
