@@ -3,6 +3,6 @@ FROM node
 WORKDIR /app
 COPY . .
 RUN npm i
-ENTRYPOINT npm start 
+ENTRYPOINT yarn start 
 EXPOSE 5000
 
