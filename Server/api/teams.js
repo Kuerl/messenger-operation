@@ -3,7 +3,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 // Import Util:
-import { QueryTeams, QueryAccountPK } from '../util/query';
+import { QueryTeams, QueryAccountPK, QueryTeamUser } from '../util/query';
 import { CreateOriginalTeam } from '../util/creator';
 import { Transfer } from '../util/transfer';
 
@@ -53,6 +53,10 @@ const teams = async (server, bodyParser, io) => {
         };
         try {
             await CreateOriginalTeam(teamInformation.title, user, teamInformation.members, UUIDV4);
+            for (let i = 0; i < members.length; i++) {
+                const element = members[i];
+                Transfer(element+'', true);
+            }
             Transfer(user+'', true);
             return res.json('Create Team Successfully!');
         } catch (error) {
